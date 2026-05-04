@@ -1,0 +1,11 @@
+variable_name,label,domain,data_type,allowed_values,missing_codes,required,source_form,analysis_role,notes
+participant_id,De-identified participant identifier,administrative,string,,NA;Unknown,yes,master_index,id,Must be unique after de-identification
+visit_date,Assessment date,administrative,date,,NA,no,clinical_visit,covariate,Use ISO date format when possible
+age,Age at assessment,demographics,numeric,">=40",NA,yes,clinical_visit,covariate,
+sex,Biological sex,demographics,categorical,Male;Female;Other;Unknown,Unknown,yes,clinical_visit,covariate,
+education_years,Years of formal education,demographics,numeric,">=0",NA,no,clinical_visit,covariate,
+diagnosis_group,Clinical diagnosis group,outcome,categorical,Control;SCD;MCI;Dementia;AD-MCI;PD-MCI;MCR,NA,yes,consensus_diagnosis,outcome,Keep definitions synchronized with manuscript
+mmse,Mini-Mental State Examination,cognition,numeric,0-30,NA,no,cognitive_test,outcome,
+moca,Montreal Cognitive Assessment,cognition,numeric,0-30,NA,no,cognitive_test,outcome,
+cdr_global,Clinical Dementia Rating global score,cognition,numeric,0;0.5;1;2;3,NA,no,cdr,outcome,
+gait_speed_m,Motor single-task gait speed,gait,numeric,">=0",NA,no,gait_assessment,predictor,Unit should be meters per second

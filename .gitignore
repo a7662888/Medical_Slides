@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Local data and outputs
+data/
+raw_data/
+restricted_data/
+*.sav
+*.dta
+*.xlsx
+*.xls
+*.csv
+!data_dictionary/*.csv
+
+# Generated outputs
+results/**/*.html
+results/**/*.png
+results/**/*.jpg
+results/**/*.pdf
+
+# Secrets and local config
+.env
+.env.*
+*.key
+*.pem
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
