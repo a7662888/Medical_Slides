@@ -1,23 +1,24 @@
 # Codex Instructions for Dementia AI Research
 
-## Working Style
+This repository follows the global workspace rules in the parent `AGENTS.md`. The notes below are project-specific additions.
 
-- Keep changes focused on the user's requested analysis or workflow.
-- Preserve patient privacy. Never commit raw clinical datasets, identifiable records, credentials, or IRB files with personal information.
-- Prefer reproducible Python code over manual spreadsheet transformations.
-- Keep exclusion rules explicit and auditable.
+## Project Scope
 
-## Research Quality Checks
+This repo owns dementia, MCI, MCR, AD-MCI, PD-MCI, gait-cognition, and related neurodegenerative cognitive research workflows.
+
+## Dementia Research Quality Checks
 
 Before finalizing analysis code, check:
 
 - duplicate participant identifiers
 - missing or inconsistent cognitive scores
 - diagnostic group definitions
+- CDR, MMSE, MoCA, neuropsychological domain score handling
+- gait-cognition variable naming consistency when gait features are used
 - train-test leakage risk
 - model features that encode the outcome
 - manuscript methods consistency with actual code
 
 ## Repository Boundaries
 
-This repo owns dementia research workflows and project-specific notebooks. Reusable utilities that benefit multiple repositories should eventually move to `clinical-ai-toolkit`.
+Reusable utilities that benefit multiple projects should eventually move to `clinical-ai-toolkit`.
