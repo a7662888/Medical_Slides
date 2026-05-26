@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NCMEA 2026｜失智症抗精神藥物去處方互動簡報</title>
+<style>
+:root {
+  --bg:#ffffff; --paper:#f7fafb; --ink:#1a2a33; --sub:#5c6b73; --line:#d9e2e6;
+  --teal:#14708a; --teal-soft:#e6f1f4; --green:#2e8b6f; --green-soft:#e8f4ef;
+  --coral:#d9534f; --coral-soft:#faeded; --amber:#d88b22; --amber-soft:#fff4df;
+  --violet:#6c4ab6; --blue:#3468b7; --slate:#52606d;
+  font-family:"Microsoft JhengHei","Noto Sans TC","PingFang TC","Heiti TC",Arial,sans-serif;
+}
+* { box-sizing:border-box; }
+body { margin:0; background:var(--bg); color:var(--ink); overflow:hidden; }
+h1,h2,h3,p,span,div,td,th { overflow-wrap:anywhere; }
+button { font:inherit; color:inherit; }
+#progress { position:fixed; top:0; left:0; height:6px; width:0; background:linear-gradient(90deg,var(--teal),var(--green)); z-index:50; transition:width .35s cubic-bezier(.23,1,.32,1); }
+#section-tag,#pageInfo,#timer { position:fixed; z-index:55; font-size:13px; color:var(--sub); letter-spacing:0; }
+#section-tag { top:18px; left:28px; color:var(--teal); font-weight:700; }
+#pageInfo { top:18px; right:28px; }
+#timer { display:none; right:28px; bottom:22px; padding:8px 12px; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--teal); font-weight:700; }
+#timer.show { display:block; }
+#hint { position:fixed; left:28px; bottom:22px; z-index:55; font-size:12px; color:var(--sub); background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; }
+#notes { position:fixed; right:24px; bottom:62px; z-index:70; width:min(460px,calc(100vw - 48px)); max-height:38vh; overflow:auto; display:none; background:#fff; border:1px solid var(--line); box-shadow:0 18px 50px rgba(10,31,45,.14); border-radius:8px; padding:18px 20px; }
+#notes.show { display:block; }
+#notes h3 { margin:0 0 8px; font-size:16px; color:var(--teal); }
+#notes p { margin:0; font-size:15px; line-height:1.65; color:var(--ink); }
+.slide { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:70px 92px 62px; opacity:0; pointer-events:none; transform:translateY(16px); transition:opacity .45s cubic-bezier(.23,1,.32,1), transform .45s cubic-bezier(.23,1,.32,1); overflow:hidden; }
+.slide.active { opacity:1; pointer-events:auto; transform:translateY(0); }
+.slide-inner { width:100%; max-width:1340px; max-height:100%; }
+.slide-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; color:var(--teal); font-size:15px; font-weight:800; }
+.slide-head small { color:var(--sub); border-left:1px solid var(--line); padding-left:12px; font-size:13px; font-weight:700; }
+h1,h2,h3,p { letter-spacing:0; }
+h2 { margin:0; font-size:45px; line-height:1.12; color:var(--ink); }
+.subtitle { margin:12px 0 26px; color:var(--sub); font-size:22px; line-height:1.45; }
+.lead { font-size:25px; line-height:1.52; color:var(--ink); }
+.lead.narrow { max-width:1100px; }
+.content { font-size:20px; line-height:1.55; }
+.cover-grid,.split,.two-col { display:grid; grid-template-columns:1.08fr .92fr; gap:34px; align-items:center; }
+.eyebrow { color:var(--teal); font-weight:800; font-size:17px; }
+.cover-grid h1 { margin:10px 0 16px; font-size:50px; line-height:1.13; }
+.hero-panel { min-height:430px; border:1px solid var(--line); border-radius:8px; background:radial-gradient(circle at 30% 20%, #e8f4ef, #fff 46%), var(--paper); display:grid; place-items:center; padding:28px; text-align:center; }
+.hero-ring { width:190px; height:190px; border-radius:50%; border:16px solid var(--teal); display:grid; place-items:center; color:var(--teal); font-size:42px; font-weight:900; background:#fff; box-shadow:0 16px 40px rgba(20,112,138,.16); }
+.hero-arrow { color:var(--sub); font-size:15px; }
+.hero-steps { font-size:34px; color:var(--green); font-weight:900; }
+.hero-caption { color:var(--ink); font-weight:800; }
+.metric-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px; }
+.metric-row.four { margin:26px 0; }
+.metric { border:1px solid var(--line); border-radius:8px; background:#fff; padding:18px; min-height:122px; }
+.metric-value { font-size:32px; line-height:1; font-weight:900; color:var(--teal); }
+.metric-label { margin-top:12px; font-size:17px; font-weight:800; }
+.metric-detail { margin-top:6px; font-size:13px; color:var(--sub); line-height:1.35; }
+.tone-green .metric-value,.tone-green b,.tone-green strong { color:var(--green); }
+.tone-coral .metric-value,.tone-coral b,.tone-coral strong { color:var(--coral); }
+.tone-amber .metric-value,.tone-amber b,.tone-amber strong { color:var(--amber); }
+.score-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:12px; margin:12px 0 32px; }
+.score-card { border:1px solid var(--line); border-radius:8px; background:#fff; padding:20px 12px; cursor:pointer; display:flex; flex-direction:column; gap:8px; align-items:flex-start; min-height:126px; transition:transform .2s ease, box-shadow .2s ease; }
+.score-card:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(10,31,45,.12); }
+.score-card b { font-size:31px; }
+.score-card span { font-size:15px; font-weight:800; }
+.tone-teal b,.tone-teal strong,.chip.tone-teal { color:var(--teal); }
+.tone-blue b { color:var(--blue); }
+.tone-violet b { color:var(--violet); }
+.tone-slate b { color:var(--slate); }
+.tone-amber b,.chip.tone-amber { color:var(--amber); }
+.tone-coral b { color:var(--coral); }
+.callout { border-left:6px solid var(--teal); background:var(--teal-soft); padding:22px 24px; border-radius:8px; }
+.callout h3 { margin:0 0 8px; color:var(--teal); font-size:24px; }
+.callout p,.callout li { margin:0 0 8px; font-size:19px; line-height:1.55; }
+.callout.subtle { border-left-color:var(--green); background:var(--green-soft); }
+.callout.subtle h3 { color:var(--green); }
+.callout.warning { border-left-color:var(--coral); background:var(--coral-soft); }
+.callout.warning h3 { color:var(--coral); }
+kbd { border:1px solid var(--line); background:#fff; border-radius:5px; padding:2px 6px; }
+.gap-list,.mapping-grid,.role-grid,.matrix,.balanced,.role-stack { display:grid; gap:14px; }
+.gap-list { grid-template-columns:repeat(5,1fr); margin-top:26px; }
+.gap-list div,.mapping-grid div,.role-grid div,.matrix div,.role-stack div { border:1px solid var(--line); border-radius:8px; background:#fff; padding:18px; }
+.gap-list b,.mapping-grid b,.role-stack b { display:block; color:var(--teal); margin-bottom:8px; font-size:20px; }
+.gap-list span,.mapping-grid span,.role-stack span { color:var(--sub); font-size:16px; line-height:1.42; }
+.statement { font-size:33px; line-height:1.45; padding:30px 34px; border:1px solid var(--line); border-radius:8px; background:linear-gradient(90deg,var(--teal-soft),#fff); color:var(--teal); font-weight:900; margin-bottom:28px; }
+.three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.type-card { border:1px solid var(--line); border-radius:8px; background:#fff; padding:24px; min-height:210px; }
+.type-card span { color:var(--green); font-weight:900; font-size:13px; }
+.type-card h3 { margin:12px 0; font-size:27px; }
+.type-card p { margin:0; color:var(--sub); font-size:19px; line-height:1.55; }
+.takeaway { margin-top:24px; padding:16px 20px; background:var(--paper); border:1px solid var(--line); border-radius:8px; color:var(--ink); font-weight:800; font-size:20px; }
+.pico-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px; }
+.pico { display:grid; grid-template-columns:74px 1fr; align-items:center; min-height:116px; border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#fff; }
+.pico b { height:100%; display:grid; place-items:center; font-size:38px; background:var(--teal); color:#fff; }
+.pico span { padding:16px 20px; font-size:20px; }
+.pico.i b { background:var(--green); } .pico.c b { background:var(--amber); } .pico.o b { background:var(--coral); }
+.query-flow,.funnel,.kta,.cohort,.pdca,.step-flow { display:grid; gap:14px; }
+.query-flow { grid-template-columns:repeat(5,1fr); margin:18px 0 30px; }
+.query-flow div,.funnel div,.kta div,.cohort div,.pdca div,.step-flow div { border:1px solid var(--line); border-radius:8px; background:#fff; padding:20px; text-align:center; }
+.query-flow b,.funnel b,.cohort b,.pdca b,.step-flow b { display:block; color:var(--teal); font-size:34px; }
+.query-flow span,.funnel span,.cohort span { display:block; color:var(--sub); font-size:15px; min-height:34px; }
+.query-flow strong { display:block; color:var(--green); font-size:22px; margin-top:8px; }
+.funnel { grid-template-columns:repeat(4,1fr); align-items:center; margin:22px 0; }
+.funnel b { font-size:44px; color:var(--green); }
+.paper-tags { display:flex; gap:10px; flex-wrap:wrap; margin:24px 0; }
+.paper-tags span,.chip { border:1px solid var(--line); background:#fff; border-radius:999px; padding:9px 13px; font-size:15px; font-weight:800; }
+.matrix.four-col { grid-template-columns:repeat(4,1fr); }
+.matrix h3,.balanced h3,.role-grid h3,.pdca h3,.step-flow h3 { margin:0 0 10px; font-size:23px; color:var(--teal); }
+.matrix p,.balanced p,.role-grid p,.pdca p,.step-flow p { margin:0; color:var(--sub); font-size:18px; line-height:1.5; }
+.balanced { grid-template-columns:repeat(3,1fr); }
+.evidence-positive { border-left:6px solid var(--green)!important; } .evidence-negative { border-left:6px solid var(--coral)!important; } .evidence-action { border-left:6px solid var(--teal)!important; }
+table.compare { width:100%; border-collapse:collapse; font-size:19px; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.compare th,.compare td { text-align:left; padding:18px 20px; border-bottom:1px solid var(--line); vertical-align:top; }
+.compare th { background:var(--teal); color:#fff; cursor:pointer; font-size:17px; }
+.compare tr:last-child td { border-bottom:0; }
+.kta { grid-template-columns:repeat(5,1fr); }
+.kta b { display:block; color:var(--teal); font-size:21px; margin-bottom:8px; }
+.kta span { color:var(--sub); font-size:16px; line-height:1.45; }
+.decision-tree { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:20px 0; }
+.decision-tree button { cursor:pointer; border:1px solid var(--line); border-radius:8px; min-height:120px; background:#fff; font-size:25px; font-weight:900; color:var(--teal); }
+.decision-tree button:hover { background:var(--teal-soft); }
+.detail-box { border:1px solid var(--line); border-radius:8px; background:var(--paper); padding:18px 20px; min-height:76px; font-size:20px; margin-bottom:22px; color:var(--ink); }
+.step-flow { grid-template-columns:repeat(4,1fr); }
+.step-flow.compact div { text-align:left; }
+.mapping-grid { grid-template-columns:repeat(5,1fr); }
+.mapping-grid strong { display:block; margin-top:12px; color:var(--green); }
+.role-grid { grid-template-columns:repeat(4,1fr); }
+.barrier-strip { display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+.barrier-strip span { background:var(--paper); border:1px solid var(--line); padding:12px 14px; border-radius:8px; font-weight:800; }
+.case-card { border:1px solid var(--line); border-radius:8px; padding:24px 28px; background:var(--paper); margin-bottom:20px; }
+.case-card h3 { color:var(--teal); margin:0 0 8px; }
+.case-card p { margin:0; font-size:22px; line-height:1.55; }
+.cohort { grid-template-columns:repeat(4,1fr); margin-bottom:24px; }
+.chart-tabs { display:flex; gap:10px; margin-bottom:12px; }
+.chart-tabs button { border:1px solid var(--line); background:#fff; border-radius:999px; padding:9px 14px; cursor:pointer; color:var(--sub); font-weight:800; }
+.chart-tabs button.active { background:var(--teal); color:#fff; border-color:var(--teal); }
+.chart-pane { display:none; }
+.chart-pane.active { display:block; }
+.chart-figure { margin:0; border:1px solid var(--line); border-radius:8px; background:#fff; padding:12px; }
+.chart-figure img { display:block; width:100%; max-height:430px; object-fit:contain; }
+.chart-pane .chart-figure { padding:8px; }
+.chart-pane .chart-figure img { max-height:340px; }
+.chart-figure figcaption { color:var(--sub); font-size:13px; margin-top:8px; text-align:center; }
+.split .chart-figure img { max-height:500px; }
+.role-stack { grid-template-columns:1fr; }
+.pdca { grid-template-columns:repeat(4,1fr); }
+.closing { text-align:center; }
+.closing h1 { font-size:48px; line-height:1.2; max-width:1120px; margin:0 auto 26px; }
+.closing p { color:var(--sub); font-weight:800; }
+@media (max-width: 900px) {
+  .slide { padding:58px 28px 72px; overflow-y:auto; overflow-x:hidden; align-items:flex-start; }
+  h1,h2,h3,p,span,div,td,th { word-break:break-all; }
+  h2 { font-size:33px; }
+  .cover-grid h1,.closing h1 { font-size:34px; }
+  .subtitle,.lead { font-size:19px; }
+  .content { font-size:17px; }
+  .metric-value { font-size:28px; }
+  .cover-grid,.split,.two-col,.score-grid,.gap-list,.three-col,.pico-grid,.query-flow,.funnel,.matrix.four-col,.balanced,.kta,.decision-tree,.step-flow,.mapping-grid,.role-grid,.cohort,.pdca,.metric-row { grid-template-columns:1fr; }
+  #hint { display:none; }
+  .chart-figure img { max-height:300px; }
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="section-tag"></div>
+<div id="pageInfo"></div>
+<div id="hint">←/→ 換頁　F 全螢幕　N 講稿　T 15 分鐘計時</div>
+<div id="timer">15:00</div>
+<aside id="notes"><h3>講稿提示</h3><p></p></aside>
+<main id="deck">
+
+            <section class="slide active" data-slide="1" data-section="開場">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>開場</span>
+                  <small>15 分鐘定位</small>
+                </header>
+                <h2>失智症病人抗精神藥物去處方</h2>
+                <p class="subtitle">從實證醫學到臨床決策｜2026C4022 實證知識轉譯組</p>
+                <div class="content">
+            <div class="cover-grid">
+              <div>
+                <p class="eyebrow">NCMEA 國家臨床醫學教育獎｜實證知識轉譯組</p>
+                <h1>把長期 APD 從慣性處方，變成每 3-6 個月重新證明必要性的決策流程。</h1>
+                <p class="lead">EBM 五步驟 -> STEP A-G 演算法 -> Choosing Wisely 減害成果</p>
+                <div class="metric-row">
+                  
+    <div class="metric tone-teal">
+      <div class="metric-value">220</div>
+      <div class="metric-label">AP 候選個案</div>
+      <div class="metric-detail">4,297 名唯一 ID 中辨識</div>
+    </div>
+    
+                  
+    <div class="metric tone-green">
+      <div class="metric-value">61.4%</div>
+      <div class="metric-label">完成去處方</div>
+      <div class="metric-detail">135 / 220</div>
+    </div>
+    
+                  
+    <div class="metric tone-green">
+      <div class="metric-value">54.4%</div>
+      <div class="metric-label">藥費下降</div>
+      <div class="metric-detail">NTD 169,042</div>
+    </div>
+    
+                  
+    <div class="metric tone-amber">
+      <div class="metric-value">RR 1.52</div>
+      <div class="metric-label">復發風險</div>
+      <div class="metric-detail">納入監測與回退條件</div>
+    </div>
+    
+                </div>
+              </div>
+              <div class="hero-panel">
+                <div class="hero-ring">EBM</div>
+                <div class="hero-arrow">Ask -> Acquire -> Appraise -> Apply -> Assess</div>
+                <div class="hero-steps">STEP A-G</div>
+                <div class="hero-caption">證據、決策、追蹤同一條鏈</div>
+              </div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="2" data-section="架構">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>架構</span>
+                  <small>附件 1-9</small>
+                </header>
+                <h2>15 分鐘按配分走</h2>
+                <p class="subtitle">高配分項目先被看見：文獻評讀、實證到應用、成效評估合計 80%</p>
+                <div class="content">
+            <div class="score-grid">
+              <button class="score-card tone-slate" data-jump="3"><b>3%</b><span>主題重要性</span></button>
+              <button class="score-card tone-teal" data-jump="5"><b>5%</b><span>PICO 質與量</span></button>
+              <button class="score-card tone-blue" data-jump="6"><b>10%</b><span>文獻搜尋</span></button>
+              <button class="score-card tone-violet" data-jump="8"><b>25%</b><span>文獻評讀</span></button>
+              <button class="score-card tone-green" data-jump="11"><b>35%</b><span>從實證到應用</span></button>
+              <button class="score-card tone-amber" data-jump="17"><b>20%</b><span>成效評估</span></button>
+              <button class="score-card tone-coral" data-jump="24"><b>7%</b><span>表現與加分</span></button>
+            </div>
+            <div class="two-col">
+              <div class="callout">
+                <h3>報告節奏</h3>
+                <ol>
+                  <li>1.5 分鐘：為何重要 + PICO</li>
+                  <li>4.5 分鐘：搜尋、評讀、Action Papers</li>
+                  <li>5 分鐘：STEP A-G 與本院導入</li>
+                  <li>4 分鐘：成效、安全性、PDCA</li>
+                </ol>
+              </div>
+              <div class="callout subtle">
+                <h3>互動提示</h3>
+                <p>可點選配分卡跳到章節；按 <kbd>N</kbd> 開關講稿，按 <kbd>T</kbd> 開關 15 分鐘計時器。</p>
+              </div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="3" data-section="主題重要性">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>主題重要性</span>
+                  <small>3%</small>
+                </header>
+                <h2>長期 APD 不是中性選項</h2>
+                <p class="subtitle">BPSD 常見，但急性處置延伸為長期處方時，風險和照護負擔會累積。</p>
+                <div class="content">
+            <p class="lead narrow">本院問題不是「完全不用抗精神藥物」，而是長期使用者缺少週期性再評估與結構化監測。</p>
+            <div class="metric-row four">
+              
+    <div class="metric tone-coral">
+      <div class="metric-value">OR 1.54</div>
+      <div class="metric-label">全因死亡率</div>
+      <div class="metric-detail">Schneider 2005</div>
+    </div>
+    
+              
+    <div class="metric tone-coral">
+      <div class="metric-value">HR 1.61</div>
+      <div class="metric-label">腦血管事件</div>
+      <div class="metric-detail">Mok 2024</div>
+    </div>
+    
+              
+    <div class="metric tone-coral">
+      <div class="metric-value">HR 1.43</div>
+      <div class="metric-label">跌倒骨折</div>
+      <div class="metric-detail">Mok 2024</div>
+    </div>
+    
+              
+    <div class="metric tone-coral">
+      <div class="metric-value">HR 2.19</div>
+      <div class="metric-label">肺炎</div>
+      <div class="metric-detail">Mok 2024</div>
+    </div>
+    
+            </div>
+            <div class="gap-list">
+              <div><b>辨識</b><span>AP > 3 個月未被系統篩選</span></div>
+              <div><b>評估</b><span>NPI-Q、CB-5、EQ-5D 未常規化</span></div>
+              <div><b>監測</b><span>缺少復發、再開立、跌倒欄位</span></div>
+              <div><b>溝通</b><span>家屬擔心症狀惡化，缺少共同決策工具</span></div>
+              <div><b>資料</b><span>藥歷、量表、藥費分散</span></div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="4" data-section="主題重要性">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>主題重要性</span>
+                  <small>3%</small>
+                </header>
+                <h2>Choosing Wisely 是減害，不是停藥口號</h2>
+                <p class="subtitle">每 3-6 個月重新評估適應症、最低有效劑量、非藥物替代與去處方可行性。</p>
+                <div class="content">
+            <div class="statement">
+              不建議對失智症長者長期持續使用抗精神病藥物，而未每 3-6 個月重新評估。
+            </div>
+            <div class="three-col">
+              <div class="type-card"><span>01</span><h3>減害</h3><p>優先檢視高 D2、Risperidone、多重 AP；低風險替代不是自動加藥。</p></div>
+              <div class="type-card"><span>02</span><h3>共同決策</h3><p>同時告知長期 APD 風險與停藥復發風險，讓照顧者知道何時回退。</p></div>
+              <div class="type-card"><span>03</span><h3>可追蹤</h3><p>NPI-Q、再開立、跌倒與藥費進 dashboard，避免流程停在倡議。</p></div>
+            </div>
+            <p class="takeaway">評審快速記憶點：本案不是「停藥競賽」，而是讓長期 APD 每次都要重新證明必要性。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="5" data-section="PICO 的質與量">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>PICO 的質與量</span>
+                  <small>5%</small>
+                </header>
+                <h2>Outcome 分成正向效益與負向安全</h2>
+                <p class="subtitle">避免只報好消息；PICO 的 O 必須同時支撐效益、風險與轉譯成果。</p>
+                <div class="content">
+            <div class="pico-grid">
+              <div class="pico p"><b>P</b><span>失智症且 AP 連續使用 >= 90 天；本院 4,297 名唯一 ID 中 AP 個案 220 人。</span></div>
+              <div class="pico i"><b>I</b><span>STEP A-G 結構化去處方；第 91-180 天漸進減量 >= 10% 或停藥。</span></div>
+              <div class="pico c"><b>C</b><span>持續或增加用藥的 usual care。</span></div>
+              <div class="pico o"><b>O</b><span>正向效益 + 負向安全 + 行為轉譯。</span></div>
+            </div>
+            <div class="two-col">
+              <div class="callout"><h3>正向效益</h3><p>APD 總量、DDD-normalized exposure、90/180 天藥費、去處方成功率、照顧者同意率。</p></div>
+              <div class="callout warning"><h3>負向安全</h3><p>BPSD 復發、NPI-Q 惡化、再開立 AP、跌倒、急診/住院、MMSE/CDR/EQ-5D/CB-5。</p></div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="6" data-section="文獻搜尋">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>文獻搜尋</span>
+                  <small>10%</small>
+                </header>
+                <h2>搜尋策略可重現</h2>
+                <p class="subtitle">每一步都有概念、查詢式、日期與筆數；PubMed 為主，Cochrane 與指引補強。</p>
+                <div class="content">
+            <div class="query-flow">
+              <div><b>Q1</b><span>核心問題</span><strong>515 篇</strong></div>
+              <div><b>Q2</b><span>2018 後更新</span><strong>209 篇</strong></div>
+              <div><b>Q3</b><span>RCT / trial</span><strong>104 篇</strong></div>
+              <div><b>Q4</b><span>SR / 指引</span><strong>95 篇</strong></div>
+              <div><b>Q5</b><span>轉譯與監測</span><strong>208 篇</strong></div>
+            </div>
+            <div class="two-col">
+              <div class="callout">
+                <h3>概念組</h3>
+                <p>dementia / Alzheimer / BPSD + antipsychotic / neuroleptic + deprescribing / discontinuation / withdrawal / taper。</p>
+              </div>
+              <div class="callout subtle">
+                <h3>篩選原則</h3>
+                <p>排除非失智、非停藥、非 APD、無法回答 PICO 的研究；保留能支撐臨床分支的文獻。</p>
+              </div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="7" data-section="文獻搜尋">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>文獻搜尋</span>
+                  <small>10%</small>
+                </header>
+                <h2>從大量搜尋到可行動證據</h2>
+                <p class="subtitle">最後保留 7 篇 Action Papers，原因是它們能直接決定 STEP A-G 的分支。</p>
+                <div class="content">
+            <div class="funnel">
+              <div><b>515</b><span>核心搜尋</span></div>
+              <div><b>209</b><span>Cochrane 後更新</span></div>
+              <div><b>8</b><span>核心評讀</span></div>
+              <div><b>7</b><span>Action Papers</span></div>
+            </div>
+            <div class="paper-tags">
+              <span>Cochrane 2018</span><span>Roche 2025</span><span>Bjerre 2018</span><span>DART-AD 2009</span>
+              <span>ADAD 2012</span><span>HALT 2016</span><span>AGS Choosing Wisely</span>
+            </div>
+            <p class="takeaway">選文獻的標準不是「最新」或「篇數最多」，而是能否回答：誰可減、怎麼減、何時停、何時回退、如何監測。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="8" data-section="文獻評讀">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>文獻評讀</span>
+                  <small>25%</small>
+                </header>
+                <h2>評讀工具分流</h2>
+                <p class="subtitle">效度、重要性、適用性、可行動性分開看，避免只列工具名稱。</p>
+                <div class="content">
+            <div class="matrix four-col">
+              <div><h3>Validity</h3><p>RoB2 / AMSTAR2 / AGREE II：研究偏差與指引品質。</p></div>
+              <div><h3>Importance</h3><p>死亡、跌倒、復發、BPSD 變化與 CI 判讀。</p></div>
+              <div><h3>Applicability</h3><p>失智嚴重度、照顧者、門診節奏與本院資料欄位。</p></div>
+              <div><h3>Actionability</h3><p>是否能對應到 STEP A-G 的篩選、分層、減量、監測。</p></div>
+            </div>
+            <div class="callout">
+              <h3>GRADE 結論</h3>
+              <p>停藥整體可行，但證據品質多為 low / very low；對曾明確反應或基線症狀嚴重者，需納入復發風險與回退條件。</p>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="9" data-section="文獻評讀">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>文獻評讀</span>
+                  <small>25%</small>
+                </header>
+                <h2>停藥可行，但不能一刀切</h2>
+                <p class="subtitle">正向證據與負向風險同時進入臨床建議。</p>
+                <div class="content">
+            <div class="balanced">
+              <div class="evidence-positive">
+                <h3>可嘗試停藥</h3>
+                <p>Cochrane 2018：多數長期 AP 使用者停藥後，整體 BPSD 未見重要惡化；DART-AD 顯示停藥可能降低長期死亡。</p>
+              </div>
+              <div class="evidence-negative">
+                <h3>需監測復發</h3>
+                <p>Roche 2025 pooled RR 約 1.52；ADAD 2012 顯示曾對 risperidone 明確反應者，停藥復發較高。</p>
+              </div>
+              <div class="evidence-action">
+                <h3>可執行減量</h3>
+                <p>Bjerre 2018：症狀穩定或效益不明且 AP >= 3 個月者，與患者/照顧者合作，每 1-2 週減 25-50%。</p>
+              </div>
+            </div>
+            <p class="takeaway">因此本案不是單一結論，而是「分層後減量，追蹤後回退」。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="10" data-section="文獻評讀">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>文獻評讀</span>
+                  <small>25%</small>
+                </header>
+                <h2>Action Papers 對應決策節點</h2>
+                <p class="subtitle">點欄位標題可排序；每篇文獻都要進入流程，而不是停在文獻表。</p>
+                <div class="content">
+            <table class="compare" id="paperTable">
+              <thead>
+                <tr><th data-sort="text">文獻 ⇅</th><th data-sort="text">主要訊息 ⇅</th><th data-sort="text">進入 STEP ⇅</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Cochrane 2018</td><td>多數長期使用者可嘗試停藥，整體 BPSD 未顯著惡化。</td><td>STEP C / D</td></tr>
+                <tr><td>Roche 2025</td><td>停藥後復發風險增加，需事先告知並監測。</td><td>STEP C / E</td></tr>
+                <tr><td>Bjerre 2018</td><td>AP >= 3 個月且穩定或效益不明者，逐步減 25-50%。</td><td>STEP D</td></tr>
+                <tr><td>ADAD 2012</td><td>曾明確反應且症狀嚴重者停藥復發高。</td><td>STEP C / F</td></tr>
+                <tr><td>AGS CW</td><td>避免未再評估的長期 AP 使用。</td><td>STEP A / G</td></tr>
+              </tbody>
+            </table>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="11" data-section="從實證到應用">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>從實證到應用</span>
+                  <small>35%</small>
+                </header>
+                <h2>KTA：知識先適配本院情境</h2>
+                <p class="subtitle">把五個知識-行動落差逐一轉成流程控制點，且保留倫理考量。</p>
+                <div class="content">
+            <div class="kta">
+              <div><b>Knowledge</b><span>EBM 查證、GRADE、Action Papers</span></div>
+              <div><b>Adapt</b><span>本院門診節奏、個管師追蹤、藥歷與量表欄位</span></div>
+              <div><b>Barriers</b><span>醫師時間、家屬焦慮、資料分散、復發擔憂</span></div>
+              <div><b>Implement</b><span>STEP A-G、共同決策、dashboard、PDCA</span></div>
+              <div><b>Monitor</b><span>APD 暴露量、藥費、安全性、再開立</span></div>
+            </div>
+            <p class="takeaway">倫理上不是強迫停藥，而是在效益不明或症狀穩定時，提供最低風險的再評估與共同決策。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="12" data-section="從實證到應用">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>從實證到應用</span>
+                  <small>35%</small>
+                </header>
+                <h2>STEP A-C：先找對人，再決定能不能減</h2>
+                <p class="subtitle">點選節點可顯示判斷重點。</p>
+                <div class="content">
+            <div class="decision-tree">
+              <button data-detail="A：由個管資料與處方紀錄辨識 AP 連續使用 >= 90 天者。">A 辨識候選人</button>
+              <button data-detail="B：確認適應症、用藥時間、劑量、跌倒/肺炎/腦血管風險。">B 風險盤點</button>
+              <button data-detail="C：用 NPI-Q、照顧者負擔與曾明確反應史分層；嚴重或近期復發者暫緩。">C 分層決策</button>
+            </div>
+            <div class="detail-box" id="stepDetail">點選上方任一節點。</div>
+            <div class="two-col">
+              <div class="callout"><h3>可減</h3><p>症狀穩定、治療效益不明、AP 使用 >= 3 個月、照顧者理解監測方式。</p></div>
+              <div class="callout warning"><h3>暫緩</h3><p>近期嚴重攻擊、曾明確反應且復發風險高、照顧者無法配合追蹤。</p></div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="13" data-section="從實證到應用">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>從實證到應用</span>
+                  <small>35%</small>
+                </header>
+                <h2>STEP D-G：減量、追蹤、回退、維持</h2>
+                <p class="subtitle">把復發風險變成具體監測，不讓安全性停在口頭保證。</p>
+                <div class="content">
+            <div class="step-flow">
+              <div><b>D</b><h3>漸進減量</h3><p>每 1-2 週或依門診節奏減 25-50%。</p></div>
+              <div><b>E</b><h3>結構監測</h3><p>NPI-Q、CB-5、跌倒、急診/住院、再開立。</p></div>
+              <div><b>F</b><h3>回退條件</h3><p>NPI 上升 >= 4 分或 >= 30% 惡化，啟動再評估。</p></div>
+              <div><b>G</b><h3>KPI 維持</h3><p>每季 dashboard；年度證據更新。</p></div>
+            </div>
+            <p class="takeaway">復發 RR 1.52 不是反對去處方，而是告訴我們要把監測與回退設計進流程。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="14" data-section="從實證到應用">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>從實證到應用</span>
+                  <small>35%</small>
+                </header>
+                <h2>本院情境化：五個落差對應五個控制點</h2>
+                <p class="subtitle">Adapting Knowledge to Local Context：流程要能在馬偕失智中心運作。</p>
+                <div class="content">
+            <div class="mapping-grid">
+              <div><b>辨識落差</b><span>AP > 90 天清單</span><strong>STEP A</strong></div>
+              <div><b>評估落差</b><span>NPI-Q / CB-5 / EQ-5D</span><strong>STEP B-C</strong></div>
+              <div><b>監測落差</b><span>追蹤與再開立欄位</span><strong>STEP E-F</strong></div>
+              <div><b>溝通落差</b><span>照顧者共同決策</span><strong>STEP C-D</strong></div>
+              <div><b>資料落差</b><span>Dashboard 與季度回饋</span><strong>STEP G</strong></div>
+            </div>
+            <p class="takeaway">轉譯成功的定義不是寫出流程圖，而是每個落差都有一個可被追蹤的欄位或角色。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="15" data-section="從實證到應用">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>從實證到應用</span>
+                  <small>35%</small>
+                </header>
+                <h2>推行角色：把阻力轉成分工</h2>
+                <p class="subtitle">醫師、老年精神科、個管師與照顧者各有明確任務。</p>
+                <div class="content">
+            <div class="role-grid">
+              <div><h3>神經科</h3><p>失智診斷、CDR/MMSE、AP 候選人辨識。</p></div>
+              <div><h3>老年精神科</h3><p>BPSD、復發風險、再開立判斷。</p></div>
+              <div><h3>個管師</h3><p>電話追蹤、量表收集、照顧者教育。</p></div>
+              <div><h3>藥師/資訊</h3><p>處方安全、藥費資料、KPI dashboard。</p></div>
+            </div>
+            <div class="barrier-strip">
+              <span>阻力：時間有限</span><span>助力：既有個管制度</span><span>成本效益：低新增成本、高藥費節省</span>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="16" data-section="從實證到應用">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>從實證到應用</span>
+                  <small>35%</small>
+                </header>
+                <h2>臨床情境示範：同一流程落到病人身上</h2>
+                <p class="subtitle">去識別化情境，用來展示決策如何運作，不作個案成效宣稱。</p>
+                <div class="content">
+            <div class="case-card">
+              <h3>情境</h3>
+              <p>中重度失智者因夜間躁動使用 quetiapine 超過 3 個月；近 2 次追蹤 NPI-Q 穩定，照顧者擔心停藥後復發。</p>
+            </div>
+            <div class="step-flow compact">
+              <div><b>A-B</b><p>辨識長期 AP + 盤點跌倒/嗜睡風險</p></div>
+              <div><b>C</b><p>分層為可嘗試減量，但需共同決策</p></div>
+              <div><b>D-E</b><p>門診節奏減量 + 電話追蹤 NPI-Q/CB-5</p></div>
+              <div><b>F-G</b><p>惡化即回退；季度納入 KPI</p></div>
+            </div>
+            <p class="takeaway">這不是「某個醫師想減藥」，而是評讀後的證據在同一張流程中被執行。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="17" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>資料基礎：先確立分母與比較組</h2>
+                <p class="subtitle">真實世界回溯資料需先交代分母、分組、雙錨點與可比性。</p>
+                <div class="content">
+            <div class="cohort">
+              <div><b>4,297</b><span>失智個管唯一 ID</span></div>
+              <div><b>220</b><span>AP 連續使用 >= 90 天且資料完整</span></div>
+              <div><b>135</b><span>去處方組：91-180 天減量 >= 10% 或停藥</span></div>
+              <div><b>85</b><span>維持/增藥組：91-180 天維持或增加</span></div>
+            </div>
+            <div class="callout subtle">
+              <h3>分析原則</h3>
+              <p>用 90 天與 180 天雙錨點比較 APD 暴露量、藥費與量表變化；結果採關聯與品質改善語言，不過度宣稱因果。</p>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="18" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>主要成效：暴露量與藥費同步下降</h2>
+                <p class="subtitle">去處方組與維持組方向相反，支持流程造成可觀減害訊號。</p>
+                <div class="content">
+            <div class="chart-tabs">
+              <button class="active" data-chart-target="exposure">APD 暴露</button>
+              <button data-chart-target="cost">藥費軌跡</button>
+            </div>
+            <div class="chart-pane active" id="chart-exposure">
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c2_exposure.png" alt="DDD-normalized APD 暴露量：去處方組下降 50.3%，維持組上升 29.9%">
+      <figcaption>DDD-normalized APD 暴露量：去處方組下降 50.3%，維持組上升 29.9%</figcaption>
+    </figure>
+    </div>
+            <div class="chart-pane" id="chart-cost">
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c3_cost_trajectory.png" alt="每人每日 AP 藥費：去處方組下降 54.5%，維持組上升 29.3%">
+      <figcaption>每人每日 AP 藥費：去處方組下降 54.5%，維持組上升 29.3%</figcaption>
+    </figure>
+    </div>
+            <div class="metric-row">
+              
+    <div class="metric tone-green">
+      <div class="metric-value">-50.3%</div>
+      <div class="metric-label">DDD 暴露量</div>
+      <div class="metric-detail">1,799 -&gt; 893</div>
+    </div>
+    
+              
+    <div class="metric tone-green">
+      <div class="metric-value">-54.4%</div>
+      <div class="metric-label">總藥費</div>
+      <div class="metric-detail">310,471 -&gt; 141,429</div>
+    </div>
+    
+              
+    <div class="metric tone-teal">
+      <div class="metric-value">p &lt; 0.001</div>
+      <div class="metric-label">個人層次藥費節省</div>
+      <div class="metric-detail">Mann-Whitney U</div>
+    </div>
+    
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="19" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>安全性：沒有穩定惡化訊號</h2>
+                <p class="subtitle">負向 outcome 直接對應 PICO 的 O，並保留下一輪 PDCA 的監測欄位。</p>
+                <div class="content">
+            <div class="chart-tabs">
+              <button class="active" data-chart-target="scales">臨床量表</button>
+              <button data-chart-target="adverse">不良事件</button>
+            </div>
+            <div class="chart-pane active" id="chart-scales">
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c4_scales.png" alt="臨床量表變化：ANCOVA 調整後組間差異均未達顯著">
+      <figcaption>臨床量表變化：ANCOVA 調整後組間差異均未達顯著</figcaption>
+    </figure>
+    </div>
+            <div class="chart-pane" id="chart-adverse">
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c5_adverse.png" alt="不良事件：跌倒與照顧者壓力未增加，維持組照顧者壓力加劇較高">
+      <figcaption>不良事件：跌倒與照顧者壓力未增加，維持組照顧者壓力加劇較高</figcaption>
+    </figure>
+    </div>
+            <p class="takeaway">MMSE p=0.06 不解讀為去處方造成退化；配對樣本有限，調整後未達顯著，需持續監測。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="20" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>2025 前後：高風險高 D2 藥物下降</h2>
+                <p class="subtitle">整體 AP 使用未必下降，但處方內涵出現 Choosing Wisely 減害訊號。</p>
+                <div class="content">
+            <div class="split">
+              <div>
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c6_yeartrend.png" alt="2021-2025：高 D2-AP 與 Risperidone 顯著下降">
+      <figcaption>2021-2025：高 D2-AP 與 Risperidone 顯著下降</figcaption>
+    </figure>
+    </div>
+              <div class="callout">
+                <h3>解讀</h3>
+                <p>AP 整體處方率未顯著下降，反映 BPSD 照護需求仍在；但高 D2-AP 逐年下降，顯示流程把風險較高處方列為優先檢視對象。</p>
+                <p><span class="chip tone-green">高 D2-AP p=0.029</span> <span class="chip tone-green">Risperidone p=0.001</span></p>
+              </div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="21" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>轉譯成果：暴露量下降，也改變藥品結構</h2>
+                <p class="subtitle">Rexulti 移轉代表風險分層後的處方選擇改變，不是自動加藥。</p>
+                <div class="content">
+            <div class="chart-tabs">
+              <button class="active" data-chart-target="mix">藥品組成</button>
+              <button data-chart-target="rexulti">Rexulti 移轉</button>
+            </div>
+            <div class="chart-pane active" id="chart-mix">
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c1_drugmix.png" alt="藥品組成：Quetiapine 為主要 AP 暴露來源">
+      <figcaption>藥品組成：Quetiapine 為主要 AP 暴露來源</figcaption>
+    </figure>
+    </div>
+            <div class="chart-pane" id="chart-rexulti">
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c7_rexulti.png" alt="Rexulti：2025 後占比上升，需以風險分層語言解讀">
+      <figcaption>Rexulti：2025 後占比上升，需以風險分層語言解讀</figcaption>
+    </figure>
+    </div>
+            <p class="takeaway">這頁要避免誤解：替代處方需經共同決策與監測，不是用新藥取代去處方。</p>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="22" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>臨床行為改變：三層同步</h2>
+                <p class="subtitle">醫師、個管師、照顧者都出現可描述的診療與照護習慣改變。</p>
+                <div class="content">
+            <div class="split">
+              <div>
+    <figure class="chart-figure">
+      <img src="assets/ncmea-2026/c8_behavior.png" alt="三層行為改變：醫師、個管師、照顧者">
+      <figcaption>三層行為改變：醫師、個管師、照顧者</figcaption>
+    </figure>
+    </div>
+              <div class="role-stack">
+                <div><b>醫師</b><span>重度者若症狀穩定，也願意在監測下評估減量。</span></div>
+                <div><b>個管師</b><span>把 NPI-Q、照顧者負擔與追蹤電話納入流程。</span></div>
+                <div><b>照顧者</b><span>65.9% 同意減藥，高於文獻常見區間。</span></div>
+              </div>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="23" data-section="成效評估">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>成效評估</span>
+                  <small>20%</small>
+                </header>
+                <h2>PDCA 維持：把成果變成制度</h2>
+                <p class="subtitle">每季監測、每年更新證據，讓競賽成果回到日常品質管理。</p>
+                <div class="content">
+            <div class="pdca">
+              <div><b>P</b><h3>Plan</h3><p>年度更新證據、調整 STEP A-G。</p></div>
+              <div><b>D</b><h3>Do</h3><p>個管師預篩，門診共同決策。</p></div>
+              <div><b>C</b><h3>Check</h3><p>APD 暴露、藥費、安全、再開立 dashboard。</p></div>
+              <div><b>A</b><h3>Act</h3><p>對低完成率院區或量表欄位啟動改善。</p></div>
+            </div>
+            <div class="callout">
+              <h3>下一輪 KPI</h3>
+              <p>NPI-Q 評估完成率 >= 80%；再開立原因欄位完整率 >= 90%；每季回饋高 D2-AP 與多重 AP 名單。</p>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+            <section class="slide" data-slide="24" data-section="結論">
+              <div class="slide-inner">
+                <header class="slide-head">
+                  <span>結論</span>
+                  <small>現場表現/加分</small>
+                </header>
+                <h2>證據進入決策、追蹤與持續更新</h2>
+                <p class="subtitle">可審查、可複製、可維持的知識轉譯閉環。</p>
+                <div class="content">
+            <div class="closing">
+              <h1>不要讓長期 APD 變成慣性；讓每一次續用都被重新評估。</h1>
+              <div class="metric-row">
+                
+    <div class="metric tone-teal">
+      <div class="metric-value">EBM</div>
+      <div class="metric-label">查證可追溯</div>
+      <div class="metric-detail">PICO -&gt; 搜尋 -&gt; 評讀</div>
+    </div>
+    
+                
+    <div class="metric tone-green">
+      <div class="metric-value">STEP A-G</div>
+      <div class="metric-label">流程可執行</div>
+      <div class="metric-detail">分層、減量、監測、回退</div>
+    </div>
+    
+                
+    <div class="metric tone-amber">
+      <div class="metric-value">真實成效</div>
+      <div class="metric-label">結果可監測</div>
+      <div class="metric-detail">暴露、藥費、安全、行為</div>
+    </div>
+    
+              </div>
+              <p>2026C4022｜馬偕紀念醫院失智防治中心</p>
+            </div>
+            </div>
+              </div>
+            </section>
+            
+</main>
+<script>
+const slides = Array.from(document.querySelectorAll('.slide'));
+const notes = {"1": "開場先讓評審知道這不是單純停藥，而是把可量化風險、臨床分層和追蹤指標串成一個可審查流程。", "2": "這頁直接回應附件 1-9。評審給分不是依資料量，而是依每個配分項目有沒有被清楚防守。", "3": "不要在這裡講太多疾病背景；重點是風險可量化，且現場流程存在可修補的五個落差。", "4": "把 Choosing Wisely 轉成臨床語言：保留必要治療、減少不必要暴露、用監測來降低停藥焦慮。", "5": "這頁要說明 PICO 不是只有表格，而是後面搜尋、評讀、演算法和成效評估共同使用的主軸。", "6": "強調可重現性。評審要看到不是隨便挑文獻，而是用 PICO 轉成搜尋概念並保留筆數。", "7": "用這頁承接到評讀。Action Papers 是轉譯組的關鍵，因為它把文獻評讀轉成可執行分支。", "8": "評讀要主動說明工具結果如何改變流程，而不是請評審自己從表格中讀出結論。", "9": "這頁要防守有效性與安全性。不要說證據證明所有人都應停藥，而是說證據支持有條件地嘗試並監測。", "10": "此頁是評分重點：證據整合要走到臨床建議。排序互動只是輔助，真正訊息是每篇都能指到流程節點。", "11": "這頁把知識轉譯框架說清楚：不是從文獻直接命令醫師，而是先適配本院場域。", "12": "用這頁說明演算法前半段如何避免一刀切。先篩選、再評估、再分層。", "13": "這頁負責回答評審最可能問的安全問題：如果變差怎麼辦？答案是 E 和 F。", "14": "這頁回答評分表中的本土情境與倫理。所有流程都要對應到本院現行工作流，不是憑空新制度。", "15": "這裡要說明推行計畫不是只有醫師個人意願，而是角色分工與資料回饋。", "16": "此頁用去識別化情境串接 STEP，避免講太抽象，也避免識別性病人資料。", "17": "真實世界資料要先防守方法限制。這裡要說明分組不是事後挑好結果，而是明確以 91-180 天變化定義。", "18": "這頁是成果核心。請說明兩組方向相反，比單純前後下降更能支持流程效果。", "19": "主動處理可能被問的 MMSE 邊界結果。用保守語言可以增加可信度。", "20": "不要說我們讓所有 AP 使用下降，這會被數據反駁。正確訊息是減害與風險結構改善。", "21": "若評審問 Rexulti 是否只是換藥，回答：本案主要成果仍是暴露量與藥費下降；Rexulti 是部分高風險情境下的處方移轉訊號。", "22": "成效評估不只病人數據，也要回答評分表中的臨床行為改變。", "23": "這頁把成果維持、監測與知識更新講完，避免評審覺得只是一次性專案。", "24": "結尾不要只說謝謝。重講一句 Choosing Wisely 聲明與三個交付：查證、流程、成效。"};
+const progressBar = document.getElementById('progress');
+const sectionTagEl = document.getElementById('section-tag');
+const pageInfoEl = document.getElementById('pageInfo');
+const notesEl = document.getElementById('notes');
+const notesText = notesEl.querySelector('p');
+const timerEl = document.getElementById('timer');
+let current = 1;
+let timerStarted = false;
+let timerStart = 0;
+let timerHandle = null;
+
+function goto(n) {
+  current = Math.max(1, Math.min(slides.length, n));
+  slides.forEach((slide, i) => slide.classList.toggle('active', i === current - 1));
+  progressBar.style.width = `${(current / slides.length) * 100}%`;
+  const active = slides[current - 1];
+  sectionTagEl.textContent = active.dataset.section;
+  pageInfoEl.textContent = `${current} / ${slides.length}`;
+  notesText.textContent = notes[String(current)] || '';
+  if (location.hash !== `#${current}`) history.replaceState(null, '', `#${current}`);
+}
+function next() { goto(current + 1); }
+function prev() { goto(current - 1); }
+function toggleFullscreen() {
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+  else document.exitFullscreen?.();
+}
+function toggleTimer() {
+  timerEl.classList.toggle('show');
+  if (!timerStarted) {
+    timerStarted = true;
+    timerStart = Date.now();
+    timerHandle = setInterval(updateTimer, 1000);
+    updateTimer();
+  }
+}
+function updateTimer() {
+  const total = 15 * 60;
+  const elapsed = Math.floor((Date.now() - timerStart) / 1000);
+  const remain = Math.max(0, total - elapsed);
+  const mm = String(Math.floor(remain / 60)).padStart(2, '0');
+  const ss = String(remain % 60).padStart(2, '0');
+  timerEl.textContent = `${mm}:${ss}`;
+  if (remain === 0 && timerHandle) clearInterval(timerHandle);
+}
+document.addEventListener('keydown', ev => {
+  if (['ArrowRight','PageDown',' '].includes(ev.key)) next();
+  if (['ArrowLeft','PageUp'].includes(ev.key)) prev();
+  if (ev.key.toLowerCase() === 'f') toggleFullscreen();
+  if (ev.key.toLowerCase() === 'n') notesEl.classList.toggle('show');
+  if (ev.key.toLowerCase() === 't') toggleTimer();
+});
+document.addEventListener('click', ev => {
+  if (ev.target.closest('button,th,a,.chart-figure')) return;
+  if (ev.clientX > window.innerWidth * 0.72) next();
+  if (ev.clientX < window.innerWidth * 0.28) prev();
+});
+document.querySelectorAll('[data-jump]').forEach(btn => {
+  btn.addEventListener('click', () => goto(Number(btn.dataset.jump)));
+});
+document.querySelectorAll('.decision-tree button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const box = document.getElementById('stepDetail');
+    if (box) box.textContent = btn.dataset.detail;
+  });
+});
+document.querySelectorAll('.chart-tabs').forEach(group => {
+  group.addEventListener('click', ev => {
+    const btn = ev.target.closest('button[data-chart-target]');
+    if (!btn) return;
+    const slide = group.closest('.slide');
+    group.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    slide.querySelectorAll('.chart-pane').forEach(pane => pane.classList.toggle('active', pane.id === `chart-${btn.dataset.chartTarget}`));
+  });
+});
+document.querySelectorAll('table.compare th').forEach((th, col) => {
+  th.addEventListener('click', () => {
+    const table = th.closest('table');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const dir = th.dataset.dir === 'asc' ? -1 : 1;
+    rows.sort((a, b) => a.children[col].textContent.localeCompare(b.children[col].textContent, 'zh-Hant') * dir);
+    rows.forEach(row => tbody.appendChild(row));
+    th.dataset.dir = dir === 1 ? 'asc' : 'desc';
+  });
+});
+const initialSlide = Number(location.hash.replace('#', '')) || 1;
+goto(initialSlide);
+</script>
+</body>
+</html>
