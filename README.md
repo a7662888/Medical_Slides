@@ -41,3 +41,7 @@ Do not commit patient identifiers, raw clinical datasets, exported hospital reco
 - Refactor repeated preprocessing logic into reusable functions.
 - Draft methods text for Alzheimer's Research & Therapy or Neurology.
 - Review analysis notebooks for reproducibility and leakage risk.
+
+## Public Slide Decks
+
+- [NCMEA 2026 dementia antipsychotic deprescribing interactive deck](public/ncmea-2026-antipsychotic-deprescribing/)
