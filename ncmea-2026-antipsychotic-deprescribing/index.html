@@ -55,11 +55,12 @@ h2 { margin:0; font-size:45px; line-height:1.12; color:var(--ink); }
 .tone-green .metric-value,.tone-green b,.tone-green strong { color:var(--green); }
 .tone-coral .metric-value,.tone-coral b,.tone-coral strong { color:var(--coral); }
 .tone-amber .metric-value,.tone-amber b,.tone-amber strong { color:var(--amber); }
-.score-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:12px; margin:12px 0 32px; }
-.score-card { border:1px solid var(--line); border-radius:8px; background:#fff; padding:20px 12px; cursor:pointer; display:flex; flex-direction:column; gap:8px; align-items:flex-start; min-height:126px; transition:transform .2s ease, box-shadow .2s ease; }
-.score-card:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(10,31,45,.12); }
-.score-card b { font-size:31px; }
-.score-card span { font-size:15px; font-weight:800; }
+.story-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:12px; margin:12px 0 32px; }
+.story-card { border:1px solid var(--line); border-radius:8px; background:#fff; padding:18px 12px; cursor:pointer; display:flex; flex-direction:column; gap:7px; align-items:flex-start; min-height:146px; transition:transform .2s ease, box-shadow .2s ease; }
+.story-card:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(10,31,45,.12); }
+.story-card b { font-size:27px; }
+.story-card span { font-size:15px; font-weight:900; }
+.story-card em { font-style:normal; color:var(--sub); font-size:12px; line-height:1.35; }
 .tone-teal b,.tone-teal strong,.chip.tone-teal { color:var(--teal); }
 .tone-blue b { color:var(--blue); }
 .tone-violet b { color:var(--violet); }
@@ -152,7 +153,7 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
   .subtitle,.lead { font-size:19px; }
   .content { font-size:17px; }
   .metric-value { font-size:28px; }
-  .cover-grid,.split,.two-col,.score-grid,.gap-list,.three-col,.pico-grid,.query-flow,.funnel,.matrix.four-col,.balanced,.kta,.decision-tree,.step-flow,.mapping-grid,.role-grid,.cohort,.pdca,.metric-row { grid-template-columns:1fr; }
+  .cover-grid,.split,.two-col,.story-grid,.gap-list,.three-col,.pico-grid,.query-flow,.funnel,.matrix.four-col,.balanced,.kta,.decision-tree,.step-flow,.mapping-grid,.role-grid,.cohort,.pdca,.metric-row { grid-template-columns:1fr; }
   #hint { display:none; }
   .chart-figure img { max-height:300px; }
 }
@@ -223,23 +224,23 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="2" data-section="架構">
+            <section class="slide" data-slide="2" data-section="故事線">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>架構</span>
-                  <small>附件 1-9</small>
+                  <span>故事線</span>
+                  <small>15 分鐘</small>
                 </header>
-                <h2>15 分鐘按配分走</h2>
-                <p class="subtitle">高配分項目先被看見：文獻評讀、實證到應用、成效評估合計 80%</p>
+                <h2>從臨床疑問走到可執行流程</h2>
+                <p class="subtitle">先說清楚為何要做，再用證據鏈說明為何可以做、怎麼做、做完改變什麼。</p>
                 <div class="content">
-            <div class="score-grid">
-              <button class="score-card tone-slate" data-jump="3"><b>3%</b><span>主題重要性</span></button>
-              <button class="score-card tone-teal" data-jump="5"><b>5%</b><span>PICO 質與量</span></button>
-              <button class="score-card tone-blue" data-jump="6"><b>10%</b><span>文獻搜尋</span></button>
-              <button class="score-card tone-violet" data-jump="8"><b>25%</b><span>文獻評讀</span></button>
-              <button class="score-card tone-green" data-jump="11"><b>35%</b><span>從實證到應用</span></button>
-              <button class="score-card tone-amber" data-jump="17"><b>20%</b><span>成效評估</span></button>
-              <button class="score-card tone-coral" data-jump="24"><b>7%</b><span>表現與加分</span></button>
+            <div class="story-grid">
+              <button class="story-card tone-slate" data-jump="3"><b>01</b><span>臨床問題</span><em>長期 APD 風險與流程落差</em></button>
+              <button class="story-card tone-teal" data-jump="5"><b>02</b><span>PICO</span><em>正向效益與負向安全同時定義</em></button>
+              <button class="story-card tone-blue" data-jump="6"><b>03</b><span>搜尋</span><em>可重現的證據取得流程</em></button>
+              <button class="story-card tone-violet" data-jump="8"><b>04</b><span>評讀</span><em>效度、重要性、適用性、可行動性</em></button>
+              <button class="story-card tone-green" data-jump="11"><b>05</b><span>轉譯</span><em>STEP A-G 導入本院流程</em></button>
+              <button class="story-card tone-amber" data-jump="17"><b>06</b><span>成效</span><em>暴露量、藥費、安全性與行為改變</em></button>
+              <button class="story-card tone-coral" data-jump="24"><b>07</b><span>維持</span><em>PDCA 與知識更新</em></button>
             </div>
             <div class="two-col">
               <div class="callout">
@@ -253,18 +254,18 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
               <div class="callout subtle">
                 <h3>互動提示</h3>
-                <p>可點選配分卡跳到章節；按 <kbd>N</kbd> 開關講稿，按 <kbd>T</kbd> 開關 15 分鐘計時器。</p>
+                <p>可點選故事卡跳到章節；按 <kbd>N</kbd> 開關講稿，按 <kbd>T</kbd> 開關 15 分鐘計時器。</p>
               </div>
             </div>
             </div>
               </div>
             </section>
             
-            <section class="slide" data-slide="3" data-section="主題重要性">
+            <section class="slide" data-slide="3" data-section="臨床問題">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>主題重要性</span>
-                  <small>3%</small>
+                  <span>臨床問題</span>
+                  <small>臨床問題</small>
                 </header>
                 <h2>長期 APD 不是中性選項</h2>
                 <p class="subtitle">BPSD 常見，但急性處置延伸為長期處方時，風險和照護負擔會累積。</p>
@@ -311,11 +312,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="4" data-section="主題重要性">
+            <section class="slide" data-slide="4" data-section="明智選擇">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>主題重要性</span>
-                  <small>3%</small>
+                  <span>明智選擇</span>
+                  <small>明智選擇</small>
                 </header>
                 <h2>Choosing Wisely 是減害，不是停藥口號</h2>
                 <p class="subtitle">每 3-6 個月重新評估適應症、最低有效劑量、非藥物替代與去處方可行性。</p>
@@ -328,16 +329,16 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               <div class="type-card"><span>02</span><h3>共同決策</h3><p>同時告知長期 APD 風險與停藥復發風險，讓照顧者知道何時回退。</p></div>
               <div class="type-card"><span>03</span><h3>可追蹤</h3><p>NPI-Q、再開立、跌倒與藥費進 dashboard，避免流程停在倡議。</p></div>
             </div>
-            <p class="takeaway">評審快速記憶點：本案不是「停藥競賽」，而是讓長期 APD 每次都要重新證明必要性。</p>
+            <p class="takeaway">核心訊息：本案不是「停藥競賽」，而是讓長期 APD 每次都要重新證明必要性。</p>
             </div>
               </div>
             </section>
             
-            <section class="slide" data-slide="5" data-section="PICO 的質與量">
+            <section class="slide" data-slide="5" data-section="PICO 問題">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>PICO 的質與量</span>
-                  <small>5%</small>
+                  <span>PICO 問題</span>
+                  <small>問題定義</small>
                 </header>
                 <h2>Outcome 分成正向效益與負向安全</h2>
                 <p class="subtitle">避免只報好消息；PICO 的 O 必須同時支撐效益、風險與轉譯成果。</p>
@@ -360,7 +361,7 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               <div class="slide-inner">
                 <header class="slide-head">
                   <span>文獻搜尋</span>
-                  <small>10%</small>
+                  <small>Acquire</small>
                 </header>
                 <h2>搜尋策略可重現</h2>
                 <p class="subtitle">每一步都有概念、查詢式、日期與筆數；PubMed 為主，Cochrane 與指引補強。</p>
@@ -386,11 +387,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="7" data-section="文獻搜尋">
+            <section class="slide" data-slide="7" data-section="文獻篩選">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>文獻搜尋</span>
-                  <small>10%</small>
+                  <span>文獻篩選</span>
+                  <small>篩選邏輯</small>
                 </header>
                 <h2>從大量搜尋到可行動證據</h2>
                 <p class="subtitle">最後保留 7 篇 Action Papers，原因是它們能直接決定 STEP A-G 的分支。</p>
@@ -410,11 +411,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="8" data-section="文獻評讀">
+            <section class="slide" data-slide="8" data-section="證據評讀">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>文獻評讀</span>
-                  <small>25%</small>
+                  <span>證據評讀</span>
+                  <small>Appraise</small>
                 </header>
                 <h2>評讀工具分流</h2>
                 <p class="subtitle">效度、重要性、適用性、可行動性分開看，避免只列工具名稱。</p>
@@ -433,11 +434,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="9" data-section="文獻評讀">
+            <section class="slide" data-slide="9" data-section="證據整合">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>文獻評讀</span>
-                  <small>25%</small>
+                  <span>證據整合</span>
+                  <small>證據整合</small>
                 </header>
                 <h2>停藥可行，但不能一刀切</h2>
                 <p class="subtitle">正向證據與負向風險同時進入臨床建議。</p>
@@ -461,36 +462,38 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="10" data-section="文獻評讀">
+            <section class="slide" data-slide="10" data-section="Action Papers">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>文獻評讀</span>
-                  <small>25%</small>
+                  <span>Action Papers</span>
+                  <small>Action Papers</small>
                 </header>
                 <h2>Action Papers 對應決策節點</h2>
                 <p class="subtitle">點欄位標題可排序；每篇文獻都要進入流程，而不是停在文獻表。</p>
                 <div class="content">
             <table class="compare" id="paperTable">
               <thead>
-                <tr><th data-sort="text">文獻 ⇅</th><th data-sort="text">主要訊息 ⇅</th><th data-sort="text">進入 STEP ⇅</th></tr>
+                <tr><th data-sort="text">文獻 ⇅</th><th data-sort="text">查證索引 ⇅</th><th data-sort="text">主要訊息 ⇅</th><th data-sort="text">進入 STEP ⇅</th></tr>
               </thead>
               <tbody>
-                <tr><td>Cochrane 2018</td><td>多數長期使用者可嘗試停藥，整體 BPSD 未顯著惡化。</td><td>STEP C / D</td></tr>
-                <tr><td>Roche 2025</td><td>停藥後復發風險增加，需事先告知並監測。</td><td>STEP C / E</td></tr>
-                <tr><td>Bjerre 2018</td><td>AP >= 3 個月且穩定或效益不明者，逐步減 25-50%。</td><td>STEP D</td></tr>
-                <tr><td>ADAD 2012</td><td>曾明確反應且症狀嚴重者停藥復發高。</td><td>STEP C / F</td></tr>
-                <tr><td>AGS CW</td><td>避免未再評估的長期 AP 使用。</td><td>STEP A / G</td></tr>
+                <tr><td>Bjerre 2018</td><td>PMID 29358245</td><td>AP >= 3 個月且穩定或效益不明者，逐步減 25-50%。</td><td>STEP D</td></tr>
+                <tr><td>Roche 2025</td><td>PMID 41404160</td><td>停藥後復發風險增加，需事先告知並監測。</td><td>STEP C / E</td></tr>
+                <tr><td>ADAD 2012</td><td>PMID 23075176</td><td>曾明確反應且症狀嚴重者停藥復發高。</td><td>STEP C / F</td></tr>
+                <tr><td>DART-AD 2009</td><td>PMID 19138567</td><td>長期追蹤提供死亡與安全性訊號。</td><td>STEP C / G</td></tr>
+                <tr><td>HALT 2018</td><td>PMID 29941156</td><td>長照情境中可執行停藥流程與監測。</td><td>STEP D / E</td></tr>
+                <tr><td>Cochrane 2018</td><td>PMID 29605970</td><td>多數長期使用者可嘗試停藥，整體 BPSD 未顯著惡化。</td><td>STEP C / D</td></tr>
+                <tr><td>Mühlbauer 2021</td><td>PMID 34918337</td><td>更新 AP 對 agitation/psychosis 的效益與風險判讀。</td><td>STEP B / C</td></tr>
               </tbody>
             </table>
             </div>
               </div>
             </section>
             
-            <section class="slide" data-slide="11" data-section="從實證到應用">
+            <section class="slide" data-slide="11" data-section="臨床轉譯">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>從實證到應用</span>
-                  <small>35%</small>
+                  <span>臨床轉譯</span>
+                  <small>Apply</small>
                 </header>
                 <h2>KTA：知識先適配本院情境</h2>
                 <p class="subtitle">把五個知識-行動落差逐一轉成流程控制點，且保留倫理考量。</p>
@@ -507,11 +510,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="12" data-section="從實證到應用">
+            <section class="slide" data-slide="12" data-section="臨床轉譯">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>從實證到應用</span>
-                  <small>35%</small>
+                  <span>臨床轉譯</span>
+                  <small>STEP A-C</small>
                 </header>
                 <h2>STEP A-C：先找對人，再決定能不能減</h2>
                 <p class="subtitle">點選節點可顯示判斷重點。</p>
@@ -530,11 +533,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="13" data-section="從實證到應用">
+            <section class="slide" data-slide="13" data-section="臨床轉譯">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>從實證到應用</span>
-                  <small>35%</small>
+                  <span>臨床轉譯</span>
+                  <small>STEP D-G</small>
                 </header>
                 <h2>STEP D-G：減量、追蹤、回退、維持</h2>
                 <p class="subtitle">把復發風險變成具體監測，不讓安全性停在口頭保證。</p>
@@ -550,11 +553,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="14" data-section="從實證到應用">
+            <section class="slide" data-slide="14" data-section="本院情境">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>從實證到應用</span>
-                  <small>35%</small>
+                  <span>本院情境</span>
+                  <small>Local Context</small>
                 </header>
                 <h2>本院情境化：五個落差對應五個控制點</h2>
                 <p class="subtitle">Adapting Knowledge to Local Context：流程要能在馬偕失智中心運作。</p>
@@ -571,11 +574,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="15" data-section="從實證到應用">
+            <section class="slide" data-slide="15" data-section="推行計畫">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>從實證到應用</span>
-                  <small>35%</small>
+                  <span>推行計畫</span>
+                  <small>團隊分工</small>
                 </header>
                 <h2>推行角色：把阻力轉成分工</h2>
                 <p class="subtitle">醫師、老年精神科、個管師與照顧者各有明確任務。</p>
@@ -593,11 +596,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="16" data-section="從實證到應用">
+            <section class="slide" data-slide="16" data-section="臨床情境">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>從實證到應用</span>
-                  <small>35%</small>
+                  <span>臨床情境</span>
+                  <small>臨床情境</small>
                 </header>
                 <h2>臨床情境示範：同一流程落到病人身上</h2>
                 <p class="subtitle">去識別化情境，用來展示決策如何運作，不作個案成效宣稱。</p>
@@ -621,7 +624,7 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               <div class="slide-inner">
                 <header class="slide-head">
                   <span>成效評估</span>
-                  <small>20%</small>
+                  <small>Assess</small>
                 </header>
                 <h2>資料基礎：先確立分母與比較組</h2>
                 <p class="subtitle">真實世界回溯資料需先交代分母、分組、雙錨點與可比性。</p>
@@ -640,11 +643,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="18" data-section="成效評估">
+            <section class="slide" data-slide="18" data-section="主要成效">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>成效評估</span>
-                  <small>20%</small>
+                  <span>主要成效</span>
+                  <small>主要結果</small>
                 </header>
                 <h2>主要成效：暴露量與藥費同步下降</h2>
                 <p class="subtitle">去處方組與維持組方向相反，支持流程造成可觀減害訊號。</p>
@@ -692,11 +695,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="19" data-section="成效評估">
+            <section class="slide" data-slide="19" data-section="安全監測">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>成效評估</span>
-                  <small>20%</small>
+                  <span>安全監測</span>
+                  <small>安全性</small>
                 </header>
                 <h2>安全性：沒有穩定惡化訊號</h2>
                 <p class="subtitle">負向 outcome 直接對應 PICO 的 O，並保留下一輪 PDCA 的監測欄位。</p>
@@ -722,11 +725,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="20" data-section="成效評估">
+            <section class="slide" data-slide="20" data-section="減害成果">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>成效評估</span>
-                  <small>20%</small>
+                  <span>減害成果</span>
+                  <small>減害成果</small>
                 </header>
                 <h2>2025 前後：高風險高 D2 藥物下降</h2>
                 <p class="subtitle">整體 AP 使用未必下降，但處方內涵出現 Choosing Wisely 減害訊號。</p>
@@ -748,11 +751,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="21" data-section="成效評估">
+            <section class="slide" data-slide="21" data-section="處方結構">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>成效評估</span>
-                  <small>20%</small>
+                  <span>處方結構</span>
+                  <small>處方結構</small>
                 </header>
                 <h2>轉譯成果：暴露量下降，也改變藥品結構</h2>
                 <p class="subtitle">Rexulti 移轉代表風險分層後的處方選擇改變，不是自動加藥。</p>
@@ -778,11 +781,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="22" data-section="成效評估">
+            <section class="slide" data-slide="22" data-section="行為改變">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>成效評估</span>
-                  <small>20%</small>
+                  <span>行為改變</span>
+                  <small>行為改變</small>
                 </header>
                 <h2>臨床行為改變：三層同步</h2>
                 <p class="subtitle">醫師、個管師、照顧者都出現可描述的診療與照護習慣改變。</p>
@@ -804,11 +807,11 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               </div>
             </section>
             
-            <section class="slide" data-slide="23" data-section="成效評估">
+            <section class="slide" data-slide="23" data-section="持續改善">
               <div class="slide-inner">
                 <header class="slide-head">
-                  <span>成效評估</span>
-                  <small>20%</small>
+                  <span>持續改善</span>
+                  <small>PDCA</small>
                 </header>
                 <h2>PDCA 維持：把成果變成制度</h2>
                 <p class="subtitle">每季監測、每年更新證據，讓競賽成果回到日常品質管理。</p>
@@ -831,7 +834,7 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
               <div class="slide-inner">
                 <header class="slide-head">
                   <span>結論</span>
-                  <small>現場表現/加分</small>
+                  <small>Take Home</small>
                 </header>
                 <h2>證據進入決策、追蹤與持續更新</h2>
                 <p class="subtitle">可審查、可複製、可維持的知識轉譯閉環。</p>
@@ -870,7 +873,7 @@ table.compare { width:100%; border-collapse:collapse; font-size:19px; background
 </main>
 <script>
 const slides = Array.from(document.querySelectorAll('.slide'));
-const notes = {"1": "開場先讓評審知道這不是單純停藥，而是把可量化風險、臨床分層和追蹤指標串成一個可審查流程。", "2": "這頁直接回應附件 1-9。評審給分不是依資料量，而是依每個配分項目有沒有被清楚防守。", "3": "不要在這裡講太多疾病背景；重點是風險可量化，且現場流程存在可修補的五個落差。", "4": "把 Choosing Wisely 轉成臨床語言：保留必要治療、減少不必要暴露、用監測來降低停藥焦慮。", "5": "這頁要說明 PICO 不是只有表格，而是後面搜尋、評讀、演算法和成效評估共同使用的主軸。", "6": "強調可重現性。評審要看到不是隨便挑文獻，而是用 PICO 轉成搜尋概念並保留筆數。", "7": "用這頁承接到評讀。Action Papers 是轉譯組的關鍵，因為它把文獻評讀轉成可執行分支。", "8": "評讀要主動說明工具結果如何改變流程，而不是請評審自己從表格中讀出結論。", "9": "這頁要防守有效性與安全性。不要說證據證明所有人都應停藥，而是說證據支持有條件地嘗試並監測。", "10": "此頁是評分重點：證據整合要走到臨床建議。排序互動只是輔助，真正訊息是每篇都能指到流程節點。", "11": "這頁把知識轉譯框架說清楚：不是從文獻直接命令醫師，而是先適配本院場域。", "12": "用這頁說明演算法前半段如何避免一刀切。先篩選、再評估、再分層。", "13": "這頁負責回答評審最可能問的安全問題：如果變差怎麼辦？答案是 E 和 F。", "14": "這頁回答評分表中的本土情境與倫理。所有流程都要對應到本院現行工作流，不是憑空新制度。", "15": "這裡要說明推行計畫不是只有醫師個人意願，而是角色分工與資料回饋。", "16": "此頁用去識別化情境串接 STEP，避免講太抽象，也避免識別性病人資料。", "17": "真實世界資料要先防守方法限制。這裡要說明分組不是事後挑好結果，而是明確以 91-180 天變化定義。", "18": "這頁是成果核心。請說明兩組方向相反，比單純前後下降更能支持流程效果。", "19": "主動處理可能被問的 MMSE 邊界結果。用保守語言可以增加可信度。", "20": "不要說我們讓所有 AP 使用下降，這會被數據反駁。正確訊息是減害與風險結構改善。", "21": "若評審問 Rexulti 是否只是換藥，回答：本案主要成果仍是暴露量與藥費下降；Rexulti 是部分高風險情境下的處方移轉訊號。", "22": "成效評估不只病人數據，也要回答評分表中的臨床行為改變。", "23": "這頁把成果維持、監測與知識更新講完，避免評審覺得只是一次性專案。", "24": "結尾不要只說謝謝。重講一句 Choosing Wisely 聲明與三個交付：查證、流程、成效。"};
+const notes = {"1": "開場先定義這不是單純停藥，而是把可量化風險、臨床分層和追蹤指標串成一個可審查流程。", "2": "用這頁建立發表秩序：問題、PICO、搜尋、評讀、轉譯、成效與維持依序推進，避免變成資料堆疊。", "3": "不要在這裡講太多疾病背景；重點是風險可量化，且現場流程存在可修補的五個落差。", "4": "把 Choosing Wisely 轉成臨床語言：保留必要治療、減少不必要暴露、用監測來降低停藥焦慮。", "5": "這頁要說明 PICO 不是只有表格，而是後面搜尋、評讀、演算法和成效評估共同使用的主軸。", "6": "強調可重現性。這裡要呈現不是隨便挑文獻，而是用 PICO 轉成搜尋概念並保留筆數。", "7": "用這頁承接到評讀。Action Papers 是轉譯組的關鍵，因為它把文獻評讀轉成可執行分支。", "8": "評讀要主動說明工具結果如何改變流程，而不是只把表格放上去。", "9": "這頁要防守有效性與安全性。不要說證據證明所有人都應停藥，而是說證據支持有條件地嘗試並監測。", "10": "這頁把證據整合推進到臨床建議。排序互動只是輔助，真正訊息是每篇都能指到流程節點。", "11": "這頁把知識轉譯框架說清楚：不是從文獻直接命令醫師，而是先適配本院場域。", "12": "用這頁說明演算法前半段如何避免一刀切。先篩選、再評估、再分層。", "13": "這頁負責回答安全問題：如果變差怎麼辦？答案是 E 和 F。", "14": "這頁回答本土情境與倫理。所有流程都要對應到本院現行工作流，不是憑空新制度。", "15": "這裡要說明推行計畫不是只有醫師個人意願，而是角色分工與資料回饋。", "16": "此頁用去識別化情境串接 STEP，避免講太抽象，也避免識別性病人資料。", "17": "真實世界資料要先防守方法限制。這裡要說明分組不是事後挑好結果，而是明確以 91-180 天變化定義。", "18": "這頁是成果核心。請說明兩組方向相反，比單純前後下降更能支持流程效果。", "19": "主動處理可能被問的 MMSE 邊界結果。用保守語言可以增加可信度。", "20": "不要說我們讓所有 AP 使用下降，這會被數據反駁。正確訊息是減害與風險結構改善。", "21": "若被追問 Rexulti 是否只是換藥，回答：本案主要成果仍是暴露量與藥費下降；Rexulti 是部分高風險情境下的處方移轉訊號。", "22": "成效不只病人數據，也包括醫師、個管師與照顧者共同形成的新照護習慣。", "23": "這頁把成果維持、監測與知識更新講完，避免被理解成一次性專案。", "24": "結尾不要只說謝謝。重講一句 Choosing Wisely 聲明與三個交付：查證、流程、成效。"};
 const progressBar = document.getElementById('progress');
 const sectionTagEl = document.getElementById('section-tag');
 const pageInfoEl = document.getElementById('pageInfo');
