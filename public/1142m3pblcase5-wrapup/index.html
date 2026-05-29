@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case 5 Wrap-up · 話到嘴邊說不清 · 漸進性延髓麻痺 (PBP)</title>
+<style>
+:root{
+  --ink:#0c1118; --ink2:#121a24; --surface:#16202c; --surface2:#1c2836;
+  --line:#2a3a4d; --line2:#37506b;
+  --text:#eaf0f6; --muted:#aebccd; --faint:#7a8ca1;
+  --teal:#2dd4bf; --teal-d:#0e8c7f;
+  --umn:#8b9cff; --lmn:#f5b443;
+  --rose:#fb7185; --violet:#a78bfa; --sky:#56b6f0; --green:#5fd0a0; --amber:#f5b443;
+  --shadow:0 18px 50px -12px rgba(0,0,0,.65);
+  --sans:"Microsoft JhengHei","PingFang TC","Noto Sans TC","Segoe UI",sans-serif;
+  --mono:"Cascadia Code","SF Mono",Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--sans); background:var(--ink); color:var(--text);
+  overflow:hidden; line-height:1.6;
+  background-image:
+    radial-gradient(1200px 700px at 80% -10%, rgba(45,212,191,.10), transparent 60%),
+    radial-gradient(900px 600px at 0% 110%, rgba(139,156,255,.10), transparent 55%);
+}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:999;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ===== Deck / slides ===== */
+.deck{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-start;
+  padding:6vh 5.5vw 8vh; opacity:0;visibility:hidden;transform:translateY(18px) scale(.995);
+  transition:opacity .5s ease,transform .5s ease,visibility .5s; overflow-y:auto;overflow-x:hidden;}
+.slide.center{justify-content:center}
+.slide.active{opacity:1;visibility:visible;transform:none;z-index:2}
+.slide.prev{transform:translateY(-18px) scale(.995)}
+.slide::-webkit-scrollbar{width:9px}
+.slide::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}
+.slide::-webkit-scrollbar-track{background:transparent}
+
+.slide.active .reveal{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
+.slide.active .reveal:nth-child(1){animation-delay:.05s}
+.slide.active .reveal:nth-child(2){animation-delay:.13s}
+.slide.active .reveal:nth-child(3){animation-delay:.21s}
+.slide.active .reveal:nth-child(4){animation-delay:.29s}
+.slide.active .reveal:nth-child(5){animation-delay:.37s}
+.slide.active .reveal:nth-child(6){animation-delay:.45s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ===== Typography (enlarged) ===== */
+.kicker{font-size:1rem;letter-spacing:.26em;text-transform:uppercase;color:var(--teal);
+  font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+.kicker::before{content:"";width:40px;height:3px;background:var(--teal);display:inline-block}
+h1{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:800;line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(2.1rem,4vw,3.4rem);font-weight:800;line-height:1.14;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:clamp(1.1rem,1.8vw,1.42rem);margin-top:.7rem;line-height:1.6}
+.eng{font-family:Georgia,"Times New Roman",serif;font-style:italic;color:var(--faint);
+  font-size:clamp(1.05rem,1.6vw,1.3rem)}
+strong.hl{color:var(--teal)}
+.umn-t{color:var(--umn);font-weight:700}.lmn-t{color:var(--lmn);font-weight:700}
+
+/* note / 補充 box */
+.note{margin-top:1.1rem;background:rgba(45,212,191,.07);border:1px solid rgba(45,212,191,.32);
+  border-left:4px solid var(--teal);border-radius:12px;padding:.95rem 1.25rem;font-size:1.04rem;color:var(--muted)}
+.note b{color:var(--teal)}
+.note.umn{background:rgba(139,156,255,.07);border-color:rgba(139,156,255,.35);border-left-color:var(--umn)}
+.note.umn b{color:var(--umn)}
+
+/* ===== Chrome ===== */
+.topbar{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(255,255,255,.06);z-index:50}
+.topbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--umn));width:0;transition:width .5s ease;box-shadow:0 0 16px rgba(45,212,191,.6)}
+.brand{position:fixed;top:16px;left:24px;z-index:40;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:700}
+.brand b{color:var(--teal)}
+.counter{position:fixed;bottom:16px;right:24px;z-index:40;font-family:var(--mono);font-size:.9rem;color:var(--faint)}
+.counter b{color:var(--text)}
+.navbtns{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:40;display:flex;gap:8px;align-items:center}
+.navbtns button{background:var(--surface);border:1px solid var(--line);color:var(--muted);width:42px;height:36px;border-radius:9px;cursor:pointer;font-size:1.1rem;transition:.2s}
+.navbtns button:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px)}
+.dots{display:flex;gap:7px;margin:0 8px}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--line2);cursor:pointer;transition:.25s}
+.dots i.on{background:var(--teal);transform:scale(1.35);box-shadow:0 0 10px var(--teal)}
+.dots i.sec{background:var(--umn);opacity:.7}
+.hint{position:fixed;bottom:16px;left:24px;z-index:40;font-size:.8rem;color:var(--faint)}
+kbd{font-family:var(--mono);background:var(--surface2);border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:.78rem;color:var(--muted)}
+
+/* ===== Cover ===== */
+.cover .tag{display:inline-flex;align-items:center;gap:.6rem;font-size:.92rem;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);border:1px solid var(--line);border-radius:30px;padding:.5rem 1.2rem;margin-bottom:1.9rem}
+.cover .tag b{color:var(--teal)}
+.cover h1 .quote{color:var(--teal)}
+.cover .meta{margin-top:2.6rem;display:flex;gap:2.8rem;flex-wrap:wrap;color:var(--muted);font-size:1.05rem}
+.cover .meta div b{color:var(--text);display:block;font-size:1.15rem;margin-bottom:.18rem}
+.cover .pulse{position:absolute;right:6vw;top:50%;transform:translateY(-50%);width:min(34vw,440px);height:min(34vw,440px);border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(45,212,191,.20),transparent 62%);filter:blur(2px);z-index:0}
+
+/* ===== layout helpers ===== */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+.card{background:linear-gradient(160deg,var(--surface),var(--ink2));border:1px solid var(--line);border-radius:16px;padding:1.5rem 1.6rem;box-shadow:var(--shadow)}
+.card h3{font-size:1.32rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.55rem}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.card li{padding-left:1.3rem;position:relative;color:var(--muted);font-size:1.08rem;line-height:1.5}
+.card li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--teal)}
+.card li b{color:var(--text)}
+.pill{font-size:.82rem;font-weight:700;padding:.24rem .7rem;border-radius:20px;letter-spacing:.04em}
+.pill.umn{background:rgba(139,156,255,.16);color:var(--umn);border:1px solid rgba(139,156,255,.4)}
+.pill.lmn{background:rgba(245,180,67,.14);color:var(--lmn);border:1px solid rgba(245,180,67,.4)}
+
+/* ===== divider ===== */
+.divider{align-items:flex-start;justify-content:center}
+.divider .big{font-size:clamp(3rem,7.5vw,6.6rem);font-weight:900;line-height:1.02;letter-spacing:-.02em;background:linear-gradient(120deg,#fff 20%,var(--teal) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.divider .num{font-family:var(--mono);font-size:1.1rem;color:var(--teal);letter-spacing:.2em;margin-bottom:1.1rem}
+.divider .dline{margin-top:1.7rem;color:var(--muted);max-width:56ch;font-size:1.3rem;line-height:1.6}
+
+/* ===== timeline ===== */
+.tl{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:2.2rem;position:relative}
+.tl::before{content:"";position:absolute;left:5%;right:5%;top:32px;height:3px;background:linear-gradient(90deg,var(--lmn),var(--rose),var(--teal))}
+.tl .node{position:relative;padding:0 .7rem;text-align:center}
+.tl .dot{width:20px;height:20px;border-radius:50%;background:var(--ink);border:3px solid var(--teal);margin:23px auto 15px;z-index:2;box-shadow:0 0 0 6px rgba(45,212,191,.12)}
+.tl .when{font-family:var(--mono);font-size:.92rem;color:var(--teal);font-weight:700}
+.tl .what{font-size:1.0rem;color:var(--muted);margin-top:.55rem}
+.tl .what b{color:var(--text);display:block;margin-bottom:.22rem;font-size:1.08rem}
+
+/* ===== concept map ===== */
+.cmap-wrap{display:flex;flex-direction:column;height:100%;gap:.7rem}
+.cmap{position:relative;flex:1;min-height:340px}
+.cmap svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;width:clamp(160px,16vw,225px);height:clamp(160px,16vw,225px);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:radial-gradient(circle at 40% 35%,#1f3340,#0e1820);border:2px solid var(--teal);box-shadow:0 0 0 8px rgba(45,212,191,.08),0 0 40px rgba(45,212,191,.25);padding:1rem}
+.hub b{font-size:clamp(1.1rem,1.6vw,1.45rem);color:#fff}
+.hub span{font-size:.86rem;color:var(--teal);letter-spacing:.04em;margin-top:.35rem}
+.branch{position:absolute;z-index:3;width:clamp(165px,16vw,220px);cursor:pointer;background:linear-gradient(160deg,var(--surface),var(--ink2));border:1.5px solid var(--line);border-radius:13px;padding:.8rem .95rem;transition:.25s;box-shadow:var(--shadow)}
+.branch:hover,.branch.sel{transform:translateY(-3px) scale(1.03);border-color:var(--bc)}
+.branch.sel{box-shadow:0 0 0 3px color-mix(in srgb,var(--bc) 35%,transparent),var(--shadow)}
+.branch .bt{font-weight:800;font-size:1.08rem;display:flex;align-items:center;gap:.45rem;color:#fff}
+.branch .bi{width:12px;height:12px;border-radius:3px;background:var(--bc)}
+.branch .be{font-size:.8rem;color:var(--faint);margin-top:.28rem;font-family:Georgia,serif;font-style:italic}
+#b0{left:0;top:5%} #b1{left:0;top:39%} #b2{left:0;top:73%}
+#b3{right:0;top:5%} #b4{right:0;top:39%} #b5{right:0;top:73%}
+.cmap-detail{background:linear-gradient(160deg,var(--surface2),var(--ink2));border:1px solid var(--line2);border-radius:14px;padding:1.1rem 1.4rem;min-height:140px;display:flex;gap:1.5rem;align-items:flex-start;box-shadow:var(--shadow);transition:.3s}
+.cmap-detail .dh{min-width:205px}
+.cmap-detail .dh b{font-size:1.25rem;display:flex;align-items:center;gap:.5rem}
+.cmap-detail .dh .dot{width:14px;height:14px;border-radius:4px}
+.cmap-detail .dh span{font-size:.86rem;color:var(--faint);font-family:Georgia,serif;font-style:italic}
+.cmap-detail .dcols{display:flex;gap:1.8rem;flex-wrap:wrap;flex:1}
+.cmap-detail .dcol{flex:1;min-width:165px}
+.cmap-detail .dcol h5{font-size:.98rem;color:var(--teal);margin-bottom:.4rem;font-weight:700}
+.cmap-detail .dcol li{list-style:none;font-size:.95rem;color:var(--muted);padding-left:1rem;position:relative;margin-bottom:.3rem;line-height:1.45}
+.cmap-detail .dcol li::before{content:"›";position:absolute;left:0;color:var(--faint)}
+.cmap-detail.hintmode{align-items:center;justify-content:center;color:var(--faint);font-size:1.1rem}
+
+/* ===== reasoning spine ===== */
+.spine{display:flex;align-items:stretch;gap:0;margin-top:1.6rem}
+.step{flex:1;background:linear-gradient(160deg,var(--surface),var(--ink2));border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.1rem;position:relative;margin-right:34px;box-shadow:var(--shadow)}
+.step:last-child{margin-right:0}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-28px;top:50%;transform:translateY(-50%);color:var(--teal);font-size:1.6rem;font-weight:800}
+.step .n{font-family:var(--mono);font-size:.86rem;color:var(--teal);font-weight:700}
+.step .q{font-size:.92rem;color:var(--faint);font-style:italic;font-family:Georgia,serif;margin:.28rem 0 .55rem}
+.step b{font-size:1.18rem;display:block;margin-bottom:.4rem}
+.step p{font-size:.96rem;color:var(--muted);line-height:1.5}
+
+/* ===== paradox ===== */
+.paradox{display:grid;grid-template-columns:1fr auto 1fr;gap:1.6rem;align-items:stretch;margin-top:1.2rem}
+.col-mn{border-radius:16px;padding:1.5rem 1.6rem;border:1.5px solid}
+.col-mn.umn{border-color:rgba(139,156,255,.45);background:linear-gradient(160deg,rgba(139,156,255,.10),transparent)}
+.col-mn.lmn{border-color:rgba(245,180,67,.45);background:linear-gradient(160deg,rgba(245,180,67,.10),transparent)}
+.col-mn h3{font-size:1.45rem;margin-bottom:1rem}
+.col-mn ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.col-mn li{font-size:1.08rem;color:var(--text);padding-left:1.5rem;position:relative}
+.col-mn li::before{content:"✓";position:absolute;left:0;font-weight:800}
+.col-mn.umn li::before{color:var(--umn)}.col-mn.lmn li::before{color:var(--lmn)}
+.col-mn .src{font-size:.95rem;color:var(--faint);margin-top:1rem;border-top:1px dashed var(--line);padding-top:.7rem}
+.merge{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.5rem}
+.merge .plus{font-size:2.8rem;font-weight:300;color:var(--faint)}
+.merge .eq{background:var(--teal);color:#04120f;font-weight:800;border-radius:12px;padding:.8rem 1.1rem;font-size:1.18rem;box-shadow:0 0 30px rgba(45,212,191,.4)}
+.merge .eq small{display:block;font-weight:600;font-size:.8rem;opacity:.85;margin-top:.25rem}
+
+/* ===== table ===== */
+table.cmp{width:100%;border-collapse:collapse;margin-top:1.2rem;font-size:1.04rem}
+table.cmp th,table.cmp td{padding:.7rem 1rem;text-align:left;border-bottom:1px solid var(--line)}
+table.cmp thead th{color:var(--teal);font-size:.9rem;letter-spacing:.05em;text-transform:uppercase;border-bottom:2px solid var(--line2)}
+table.cmp td:first-child{color:var(--faint);font-weight:600}
+table.cmp tr:hover{background:rgba(255,255,255,.02)}
+table.cmp .yes{color:var(--green);font-weight:700}
+.tagrow{display:flex;gap:.6rem;margin-top:1.1rem;flex-wrap:wrap}
+.chip{background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:.45rem .9rem;font-size:.98rem;color:var(--muted)}
+.chip b{color:var(--text)}
+
+/* ===== funnel ===== */
+.funnel{display:flex;flex-direction:column;gap:.6rem;margin-top:1.1rem}
+.frow{display:flex;align-items:center;gap:1.1rem}
+.fbar{height:52px;border-radius:10px;display:flex;align-items:center;padding:0 1.2rem;font-weight:700;font-size:1.05rem;color:#04120f;background:linear-gradient(90deg,var(--teal),var(--teal-d));box-shadow:var(--shadow)}
+.frow:nth-child(1) .fbar{width:100%}
+.frow:nth-child(2) .fbar{width:82%;background:linear-gradient(90deg,#46c8d6,#1f7f8c)}
+.frow:nth-child(3) .fbar{width:64%;background:linear-gradient(90deg,#6aa9ef,#2f6bb0)}
+.frow:nth-child(4) .fbar{width:48%;background:linear-gradient(90deg,var(--umn),#5566cc);color:#fff}
+.frow .fx{font-size:.98rem;color:var(--muted)}
+.frow .fx b{color:var(--text)}
+
+/* ===== objectives ===== */
+.obj{display:flex;flex-direction:column;gap:.9rem;margin-top:1.1rem}
+.obj .o{display:flex;gap:1.2rem;align-items:flex-start;background:linear-gradient(120deg,var(--surface),var(--ink2));border:1px solid var(--line);border-left:5px solid var(--teal);border-radius:12px;padding:1.1rem 1.4rem;box-shadow:var(--shadow)}
+.obj .o .on{font-family:var(--mono);font-size:1.7rem;font-weight:800;color:var(--teal);line-height:1;min-width:40px}
+.obj .o .ob b{font-size:1.22rem}
+.obj .o .ob p{font-size:1.02rem;color:var(--muted);margin-top:.3rem;line-height:1.5}
+.obj.opt .o{border-left-color:var(--umn)}
+.obj.opt .o .on{color:var(--umn)}
+.lead{font-size:1.25rem;color:var(--muted);max-width:64ch}
+.lead b{color:var(--teal)}
+
+/* ===== group feedback ===== */
+.gwrap{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:1.1rem}
+.gcard{background:linear-gradient(160deg,var(--surface),var(--ink2));border:1px solid var(--line);border-radius:14px;padding:1.05rem 1.2rem;box-shadow:var(--shadow);border-top:3px solid var(--gc,var(--teal))}
+.gcard .gh{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
+.gcard .gbadge{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#04120f;background:var(--gc,var(--teal))}
+.gcard .gt{font-size:1.0rem;color:var(--faint);font-weight:700;letter-spacing:.02em}
+.gcard p{font-size:1.0rem;color:var(--text);line-height:1.5}
+.gcard.warn p{color:var(--text)}
+.gcard .lbl{font-size:.82rem;font-weight:700;letter-spacing:.05em;padding:.15rem .55rem;border-radius:6px}
+.lbl.good{background:rgba(95,208,160,.16);color:var(--green)}
+.lbl.imp{background:rgba(245,180,67,.16);color:var(--lmn)}
+.common{margin-top:1.2rem;background:linear-gradient(120deg,rgba(45,212,191,.08),transparent);border:1px solid var(--line2);border-radius:13px;padding:1.1rem 1.4rem}
+.common.warn{background:linear-gradient(120deg,rgba(245,180,67,.08),transparent)}
+.common h4{font-size:1.12rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.common .row{display:flex;gap:1rem;flex-wrap:wrap}
+.common .row div{flex:1;min-width:200px;font-size:1.0rem;color:var(--muted)}
+.common .row div b{color:var(--text)}
+
+/* ===== take-home ===== */
+.takeaways{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:1.3rem}
+.ta{background:linear-gradient(160deg,var(--surface),var(--ink2));border:1px solid var(--line);border-radius:13px;padding:1.15rem 1.35rem;display:flex;gap:1rem;align-items:flex-start}
+.ta .ti{font-size:1.6rem}
+.ta b{font-size:1.12rem}.ta p{font-size:.98rem;color:var(--muted);margin-top:.25rem;line-height:1.5}
+
+@media (max-width:920px){
+  .grid2,.grid3,.takeaways,.gwrap{grid-template-columns:1fr}
+  .spine{flex-direction:column}.step{margin:0 0 34px}
+  .step:not(:last-child)::after{content:"↓";right:50%;top:auto;bottom:-30px;transform:translateX(50%)}
+  .paradox{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><i id="bar"></i></div>
+<div class="brand"><b>PBL</b> · Brain &amp; Behaviors · Case Wrap-up</div>
+<div class="counter"><b id="cnum">01</b> / <span id="ctot">18</span></div>
+<div class="hint">← → / <kbd>Space</kbd> 翻頁 · <kbd>F</kbd> 全螢幕</div>
+<div class="navbtns"><button id="prev">‹</button><div class="dots" id="dots"></div><button id="next">›</button></div>
+
+<div class="deck" id="deck">
+
+<!-- S1 COVER -->
+<section class="slide center cover active">
+  <div class="pulse"></div>
+  <div class="reveal tag">Case Wrap-up · <b>40 min</b> · 2026.05</div>
+  <h1 class="reveal">話到嘴邊<span class="quote">說不清</span></h1>
+  <div class="reveal eng" style="margin-top:.9rem;font-size:1.5rem">As Voice Slipping Away — 漸進性延髓麻痺 (PBP)</div>
+  <div class="reveal sub" style="max-width:62ch">一位 58 歲國中國文老師的構音與吞嚥困難 — 我們如何從<strong class="hl">症狀</strong>，一步步推理到<strong class="hl">運動神經元疾病</strong>的診斷與照護。</div>
+  <div class="reveal meta">
+    <div><b>陳培豪 醫師</b>神經內科 · 失智症防治中心</div>
+    <div><b>馬偕醫學大學醫學系</b>三年級 · Brain &amp; Behaviors</div>
+    <div><b>本次任務</b>① 推理邏輯　② 學習目標　③ 各組回饋</div>
+  </div>
+</section>
+
+<!-- S2 Agenda -->
+<section class="slide center">
+  <div class="reveal kicker">這 40 分鐘 · How to read this case</div>
+  <h2 class="reveal">Wrap-up 要完成三件事</h2>
+  <div class="grid3 reveal" style="margin-top:2rem">
+    <div class="card" style="border-left:4px solid var(--teal)">
+      <h3><span class="pill" style="background:var(--teal);color:#04120f">01</span> 整體邏輯與推理</h3>
+      <ul>
+        <li>以<strong>概念圖</strong>串起臨床推理</li>
+        <li>症狀如何<strong>定位</strong>到延髓</li>
+        <li>UMN/LMN 並存如何指向 MND</li>
+        <li>如何排除模擬病、確診 PBP</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:4px solid var(--umn)">
+      <h3><span class="pill" style="background:var(--umn);color:#0a0e26">02</span> 主要學習目標</h3>
+      <ul>
+        <li>延髓區顱神經核解剖與功能</li>
+        <li>延髓麻痺 vs 假性延髓麻痺</li>
+        <li>MND 分類與 PBP 定位</li>
+        <li>Gold Coast 準則與電生理</li>
+        <li>關鍵鑑別（MG、Kennedy）</li>
+      </ul>
+    </div>
+    <div class="card" style="border-left:4px solid var(--rose)">
+      <h3><span class="pill" style="background:var(--rose);color:#2a0a12">03</span> 各組報告回饋</h3>
+      <ul>
+        <li>六組<strong>亮點</strong>與<strong>待改善</strong></li>
+        <li>匿名呈現（不對應組號）</li>
+        <li>整理<strong>共同優點</strong></li>
+        <li>提醒<strong>共同 pitfalls</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="reveal eng" style="margin-top:1.8rem;text-align:center">「診斷不是背答案，而是證據的累積。」</div>
+</section>
+
+<!-- S3 DIVIDER 1 -->
+<section class="slide divider">
+  <div class="reveal num">ACT 01</div>
+  <div class="reveal big">教案整體邏輯<br>與推理</div>
+  <div class="reveal dline">從一句主訴「說話越來越不清楚」出發，沿著<strong style="color:var(--teal)">定位 → 性質 → 神經元層級 → 時間 → 排除 → 確診 → 照護</strong>，看見一條完整的臨床推理鏈。</div>
+</section>
+
+<!-- S4 patient + timeline -->
+<section class="slide">
+  <div class="reveal kicker">病人一句話 · The patient in one breath</div>
+  <h2 class="reveal">58 歲男性，資深國中<strong class="hl">國文老師</strong></h2>
+  <div class="reveal sub">主訴「說話越來越不清楚」；過去健康、無菸酒、無神經肌肉疾病家族史。對他而言，語言正是職業工具與身分認同 — 這也讓後續的人文照護格外關鍵。</div>
+  <div class="reveal tl">
+    <div class="node"><div class="dot"></div><div class="when">半年前</div><div class="what"><b>聲音沙啞</b>誤以為是感冒後遺症，未就醫</div></div>
+    <div class="node"><div class="dot"></div><div class="when">3 個月前</div><div class="what"><b>構音困難</b>舌頭不聽使喚、捲舌音費力，學生反映上課口齒不清</div></div>
+    <div class="node"><div class="dot"></div><div class="when">近 1 個月</div><div class="what"><b>吞嚥困難 + 情緒失調</b>喝水嗆咳、進食變慢；無預警大笑大哭</div></div>
+    <div class="node"><div class="dot"></div><div class="when">就診</div><div class="what"><b>神經學檢查 + 檢驗</b>UMN+LMN 並存；EMG、MRI、抗體</div></div>
+    <div class="node"><div class="dot"></div><div class="when">3 個月後</div><div class="what"><b>回診惡化</b>吞嚥更差、體重↓8kg → 討論 PEG / NIV</div></div>
+  </div>
+  <div class="note reveal">💡 <b>補充：</b>症狀<strong>慢性、漸進、由延髓向外擴散</strong>，半年的病程一開始就排除了急性中風與感染。延髓起病（bulbar-onset）約占 ALS 的 20–35%，因吞嚥與呼吸肌早期受累，是預後最差的表現型之一。</div>
+</section>
+
+<!-- S5 CONCEPT MAP -->
+<section class="slide" id="cmapSlide" style="padding-top:5vh;padding-bottom:4vh">
+  <div class="reveal kicker" style="margin-bottom:.6rem">教案概念圖 · 點選任一分支展開 <span style="color:var(--faint);text-transform:none;letter-spacing:0;font-weight:400">（六大主軸環繞病例核心 · 可按數字鍵 1–6）</span></div>
+  <div class="cmap-wrap reveal">
+    <div class="cmap" id="cmap">
+      <svg class="lines" id="lines"></svg>
+      <div class="hub"><b>58 歲男性教師</b><span>漸進性延髓麻痺 (PBP)</span></div>
+      <div class="branch" id="b0" data-i="0" style="--bc:var(--sky)"><div class="bt"><span class="bi"></span>臨床表現演進</div><div class="be">Clinical progression</div></div>
+      <div class="branch" id="b1" data-i="1" style="--bc:var(--umn)"><div class="bt"><span class="bi"></span>神經學檢查發現</div><div class="be">Neurological exam</div></div>
+      <div class="branch" id="b2" data-i="2" style="--bc:var(--lmn)"><div class="bt"><span class="bi"></span>診斷檢查策略</div><div class="be">Diagnostic workup</div></div>
+      <div class="branch" id="b3" data-i="3" style="--bc:var(--teal)"><div class="bt"><span class="bi"></span>確診與分類</div><div class="be">Diagnosis &amp; spectrum</div></div>
+      <div class="branch" id="b4" data-i="4" style="--bc:var(--green)"><div class="bt"><span class="bi"></span>治療與照護計畫</div><div class="be">Treatment &amp; care</div></div>
+      <div class="branch" id="b5" data-i="5" style="--bc:var(--rose)"><div class="bt"><span class="bi"></span>緩和醫療與人文</div><div class="be">Palliative &amp; humanities</div></div>
+    </div>
+    <div class="cmap-detail hintmode" id="cdetail">▸ 點選任一分支，展開該主軸的核心內容（亦可用數字鍵 1–6）</div>
+  </div>
+</section>
+
+<!-- S6 spine -->
+<section class="slide center">
+  <div class="reveal kicker">推理主線 · The clinical reasoning spine</div>
+  <h2 class="reveal">一條鏈：從症狀到診斷</h2>
+  <div class="spine reveal">
+    <div class="step"><div class="n">STEP 1</div><div class="q">Where?</div><b>定位</b><p>構音、吞嚥、哭笑失控 → 病灶在<strong style="color:var(--teal)">延髓區 (bulbar)</strong></p></div>
+    <div class="step"><div class="n">STEP 2</div><div class="q">What kind?</div><b>性質</b><p>大腦皮質正常 → 是<strong style="color:var(--teal)">構音 (dysarthria)</strong> 而非失語 (aphasia)</p></div>
+    <div class="step"><div class="n">STEP 3</div><div class="q">Which neuron?</div><b>神經元層級</b><p><span class="umn-t">UMN</span> + <span class="lmn-t">LMN</span> 並存 → 指向<strong style="color:var(--teal)">運動神經元疾病</strong></p></div>
+    <div class="step"><div class="n">STEP 4</div><div class="q">Rule out</div><b>排除模擬病</b><p>EMG 多區去神經；排除 MG、Kennedy、結構病變</p></div>
+    <div class="step"><div class="n">STEP 5</div><div class="q">Confirm</div><b>確診 + 照護</b><p>Gold Coast → <strong style="color:var(--teal)">PBP</strong>；治療 + 緩和 + 人文</p></div>
+  </div>
+  <div class="note reveal">💡 <b>神經學定位的兩個永恆問題：</b>病灶在哪裡（Where）？是什麼性質（What）？ 先用解剖定位縮小範圍，再用時間病程（超急性／急性／亞急性／慢性）判斷病因類別 — 半年漸進＝退化性，這就是本案的推理骨架。</div>
+</section>
+
+<!-- S7 定位/性質 -->
+<section class="slide">
+  <div class="reveal kicker">推理 ① ② · 定位與性質</div>
+  <h2 class="reveal">延髓區症狀 — 而且是「執行」出了問題</h2>
+  <div class="grid2 reveal" style="margin-top:1.4rem">
+    <div class="card">
+      <h3>🎯 症狀如何落在延髓區</h3>
+      <table class="cmp">
+        <thead><tr><th>症狀</th><th>顱神經 / 機制</th></tr></thead>
+        <tbody>
+          <tr><td>構音困難、鼻音</td><td>CN V·VII·X·XII；軟顎封閉不全</td></tr>
+          <tr><td>喝水嗆咳、吞嚥困難</td><td>CN IX·X（咽期、聲門保護）</td></tr>
+          <tr><td>軟顎上抬無力</td><td>CN X（疑核 nucleus ambiguus）</td></tr>
+          <tr><td>舌萎縮 + 肌束顫動</td><td>CN XII（舌下神經核 LMN）</td></tr>
+          <tr><td>不自主哭笑 (PBA)</td><td>雙側皮質延髓徑去抑制（UMN）</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h3>🧠 構音困難 ≠ 失語症</h3>
+      <p class="sub" style="margin:.2rem 0 .7rem;font-size:1.05rem">病人「知道要說什麼，只是說不清楚」。</p>
+      <table class="cmp">
+        <thead><tr><th></th><th>構音困難 Dysarthria</th><th>失語症 Aphasia</th></tr></thead>
+        <tbody>
+          <tr><td>本質</td><td class="yes">言語「執行」</td><td>語言「認知」</td></tr>
+          <tr><td>病灶</td><td>運動神經元 / 肌肉</td><td>大腦皮質語言區</td></tr>
+          <tr><td>命名/理解</td><td>正常</td><td>受損</td></tr>
+          <tr><td>本案</td><td class="yes">✓ 皮質功能正常</td><td>排除</td></tr>
+        </tbody>
+      </table>
+      <div class="note umn" style="margin-top:.9rem;font-size:1.0rem">💡 <b>補充：</b>大腦高級皮質功能（定向感、記憶、計算）正常 → 鎖定下游構音系統；同時也排除了會以「說不清楚」表現的中風與失智。</div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 paradox -->
+<section class="slide">
+  <div class="reveal kicker">推理 ③ · 矛盾即線索</div>
+  <h2 class="reveal">同一病人，<span class="umn-t">UMN</span> 與 <span class="lmn-t">LMN</span> 徵象<strong class="hl">並存</strong></h2>
+  <div class="paradox reveal">
+    <div class="col-mn umn">
+      <h3><span class="pill umn">UMN</span> 上運動神經元</h3>
+      <ul>
+        <li>下頷反射亢進 (brisk jaw jerk)</li>
+        <li>深部肌腱反射 3+</li>
+        <li>Hoffman sign (+)</li>
+        <li>假性延髓情感 (PBA)：不自主哭笑</li>
+      </ul>
+      <div class="src">＝ 雙側皮質延髓／皮質脊髓徑功能異常的指標。</div>
+    </div>
+    <div class="merge">
+      <div class="plus">+</div>
+      <div class="eq">運動神經元疾病<small>UMN + LMN 混合 = ALS / PBP 核心</small></div>
+    </div>
+    <div class="col-mn lmn">
+      <h3><span class="pill lmn">LMN</span> 下運動神經元</h3>
+      <ul>
+        <li>舌頭萎縮 (CN XII 核)</li>
+        <li>舌肌束顫動 (fasciculations)</li>
+        <li>咽反射減弱 (CN IX·X)</li>
+        <li>EMG：纖維顫動 / 慢性去神經</li>
+      </ul>
+      <div class="src">＝ 延髓運動核退化的直接證據。</div>
+    </div>
+  </div>
+  <div class="note reveal">💡 <b>為何這個矛盾如此重要：</b>「在已萎縮的肌肉上同時看到反射亢進、且無任何感覺障礙」，是 ALS 最具特異性的臨床線索 — 其他神經退化疾病極少見。需注意：當 LMN 嚴重退化、反射弧被破壞後，亢進反射可能逐漸消失，故早期把握是關鍵。</div>
+</section>
+
+<!-- S9 bulbar vs pseudobulbar -->
+<section class="slide">
+  <div class="reveal kicker">推理 ③ 延伸 · 延髓麻痺 vs 假性延髓麻痺</div>
+  <h2 class="reveal">病人<strong class="hl">兩者兼具</strong> — 真性 (LMN) + 假性 (UMN)</h2>
+  <table class="cmp reveal" style="margin-top:1.2rem">
+    <thead><tr><th>特徵</th><th>延髓麻痺 Bulbar (LMN)</th><th>假性延髓麻痺 Pseudobulbar (UMN)</th><th>本案</th></tr></thead>
+    <tbody>
+      <tr><td>舌頭</td><td>萎縮、肌束顫動</td><td>痙攣、小而緊、無萎縮</td><td class="yes">舌萎縮+顫動 ✓</td></tr>
+      <tr><td>言語</td><td>鼻音、氣息聲、無力</td><td>緊繃、費力、似「唐老鴨」</td><td class="yes">鼻音+費力 ✓</td></tr>
+      <tr><td>咽反射 Gag</td><td>減弱或消失</td><td>增強</td><td class="yes">減弱 ✓</td></tr>
+      <tr><td>下頷反射 Jaw jerk</td><td>正常或減弱</td><td>亢進 (brisk)</td><td class="yes">亢進 ✓</td></tr>
+      <tr><td>情緒</td><td>無</td><td>常見 PBA（~38.5%）</td><td class="yes">PBA ✓</td></tr>
+      <tr><td>病灶</td><td>延髓顱神經核 / 周邊</td><td>雙側皮質延髓徑</td><td class="yes">兩處皆受累</td></tr>
+    </tbody>
+  </table>
+  <div class="note reveal">💡 <b>下頷反射 (jaw jerk) 的價值：</b>反射弧完全在腦幹（三叉神經核），平時受皮質延髓徑下行抑制；jaw jerk 亢進＝<strong>腦幹以上雙側 UMN 受損</strong>的可靠指標。同時呈現真性＋假性延髓麻痺 → 病變橫跨 LMN 與 UMN，正符合 MND/ALS。</div>
+</section>
+
+<!-- S10 funnel + Gold Coast -->
+<section class="slide">
+  <div class="reveal kicker">推理 ④ · 排除模擬病、累積證據</div>
+  <h2 class="reveal">診斷漏斗 → Gold Coast 2020 → PBP</h2>
+  <div class="grid2 reveal" style="margin-top:1.1rem;grid-template-columns:1fr 1.15fr;align-items:start">
+    <div>
+      <div class="funnel">
+        <div class="frow"><div class="fbar">延髓區症狀（構音/吞嚥/PBA）</div></div>
+        <div class="frow"><div class="fbar">UMN + LMN 並存</div><div class="fx">半年慢性進展 → 排除中風/感染</div></div>
+        <div class="frow"><div class="fbar">排除模擬病</div><div class="fx">MG 抗體(−)、感覺正常、MRI 無壓迫</div></div>
+        <div class="frow"><div class="fbar">符合 Gold Coast → PBP</div></div>
+      </div>
+      <div class="note reveal" style="margin-top:1rem">💡 <b>EMG 客觀證據：</b>急性去神經＝纖維顫動電位、正銳波；慢性再支配＝大振幅、長時程、多相波 MUAP、招募減少。多區域取樣（延髓＋頸＋胸）可避免把局部神經病變誤判為 MND。生物標記 <b>NfL</b> 可輔助縮短診斷延遲、預測進展。</div>
+    </div>
+    <div class="card">
+      <h3>Gold Coast 準則套用本案</h3>
+      <table class="cmp">
+        <thead><tr><th>條件</th><th>本案證據</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>漸進性運動障礙</td><td>半年構音+吞嚥惡化</td><td class="yes">✓</td></tr>
+          <tr><td>UMN 證據</td><td>jaw jerk、DTR 3+、Hoffman、PBA</td><td class="yes">✓</td></tr>
+          <tr><td>LMN 證據</td><td>舌萎縮/顫動、EMG 去神經</td><td class="yes">✓</td></tr>
+          <tr><td>多區域</td><td>延髓 + 手(FDI) + 胸椎旁肌</td><td class="yes">✓</td></tr>
+          <tr><td>排除其他</td><td>MRI/抗體/感覺 NCS 皆陰性</td><td class="yes">✓</td></tr>
+        </tbody>
+      </table>
+      <div class="tagrow">
+        <span class="chip"><b>MG</b> 抗 AChR/MuSK(−)、無 UMN、症狀不波動</span>
+        <span class="chip"><b>Kennedy</b> 有感覺異常、無 UMN、X-linked</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S11 spectrum -->
+<section class="slide">
+  <div class="reveal kicker">推理 ⑤ · 定位於疾病光譜</div>
+  <h2 class="reveal">PBP = 延髓起病的 ALS，不是獨立疾病</h2>
+  <div class="grid3 reveal" style="margin-top:1.2rem">
+    <div class="card" style="border-top:3px solid var(--umn)"><h3><span class="pill umn">純 UMN</span></h3><b style="font-size:1.2rem">PLS</b><p class="sub" style="margin-top:.3rem;font-size:1.0rem">原發性側索硬化；進展慢</p></div>
+    <div class="card" style="border-top:3px solid var(--teal)"><h3><span class="pill" style="background:var(--teal);color:#04120f">UMN+LMN</span></h3><b style="font-size:1.2rem">ALS / PBP</b><p class="sub" style="margin-top:.3rem;font-size:1.0rem">最常見；PBP 為延髓型，約 22–35%</p></div>
+    <div class="card" style="border-top:3px solid var(--lmn)"><h3><span class="pill lmn">純 LMN</span></h3><b style="font-size:1.2rem">PMA / SMA / SBMA</b><p class="sub" style="margin-top:.3rem;font-size:1.0rem">依病因區分（後天/遺傳）</p></div>
+  </div>
+  <div class="grid2 reveal" style="margin-top:1.2rem">
+    <div class="card"><h3>📈 為何預後較差</h3><ul>
+      <li>中位存活約 <b style="color:var(--teal)">20–27 個月</b>（肢端型 31–36 月、5 年存活僅 ~3%）</li>
+      <li>吞嚥/呼吸肌早期受累 → <b>吸入性肺炎</b>是主要死因之一</li>
+      <li><b style="color:var(--teal)">87%</b> 最終進展出四肢症狀 → 典型 ALS</li>
+      <li>診斷常延誤 12–16 個月（早期被當喉嚨問題/中風）</li>
+    </ul></div>
+    <div class="card"><h3>🔗 共同分子病理</h3><ul>
+      <li>TDP-43 蛋白錯位聚集（約 97% ALS）、prion-like 擴散</li>
+      <li>與額顳葉失智 (FTD) 共享 <b>C9orf72</b> 等基因；~15% ALS 合併 FTD</li>
+      <li>故 ALS/PBP/PMA/PLS 視為<b>同一疾病光譜</b></li>
+      <li>King's 分期：以受累區域數＋PEG/NIV 需求客觀追蹤</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- S12 tx + humanities -->
+<section class="slide">
+  <div class="reveal kicker">推理延伸 · 從診斷到照護</div>
+  <h2 class="reveal">診斷之後：四支柱治療 + 人文關懷</h2>
+  <div class="grid2 reveal" style="margin-top:1.1rem">
+    <div class="grid2" style="gap:1rem">
+      <div class="card"><h3>💊 藥物</h3><ul><li>Riluzole 確診即用、終身（延壽 2–3 月）</li><li>SOD1 突變 → <b>Tofersen</b>（ASO，鞘內）</li><li>PBA → Dextromethorphan/Quinidine</li></ul></div>
+      <div class="card"><h3>🍽 營養</h3><ul><li><b>PEG</b>：體重↓>10% 或 FVC>50% 時放置（過晚風險高）</li><li>語言治療、質地調整</li></ul></div>
+      <div class="card"><h3>🫁 呼吸</h3><ul><li>定期 FVC；<b>NIV</b> 延壽 7–12 月、改善生活品質</li><li>咳痰訓練、分泌物處理</li></ul></div>
+      <div class="card"><h3>♿ 復健/輔具</h3><ul><li>AAC、<b>語音銀行</b> (voice banking)</li><li>物理/職能治療維持功能</li></ul></div>
+    </div>
+    <div class="card" style="border-left:4px solid var(--rose)">
+      <h3>🤝 人文核心 — 為何對「他」特別重要</h3>
+      <p class="sub" style="margin:.2rem 0 .8rem;font-size:1.08rem">病人是<strong style="color:var(--rose)">國文老師</strong>：語言是職業、是身分。疾病最先奪走的，正是他賴以為生的「說話」。</p>
+      <ul>
+        <li><b>SPIKES</b> 告知壞消息：環境 → 評估認知 → 詢問意願 → 淺顯說明 → 回應情緒 → 後續計畫</li>
+        <li><b>ACP / 預立醫療決定</b>：趁仍能溝通時討論 NIV / 氣切 / DNR</li>
+        <li><b>語音銀行</b>：在聲音清楚時保存，維護自主與尊嚴</li>
+        <li>緩和醫療<b>從確診第一天</b>開始，而非末期才轉介</li>
+      </ul>
+      <div class="note" style="margin-top:.9rem;font-size:1.0rem">💡 「我還有多少時間？」— 給範圍與不確定性，同步說明<b>現在能做的事</b>，比單一數字更重要。</div>
+    </div>
+  </div>
+</section>
+
+<!-- S13 DIVIDER 2 -->
+<section class="slide divider">
+  <div class="reveal num">ACT 02</div>
+  <div class="reveal big">主要學習目標</div>
+  <div class="reveal dline">走完這個教案，<strong style="color:var(--teal)">學生應該知道什麼重點</strong>？以下五項為必達 (Mandatory) 目標，外加三項延伸 (Optional) 目標。</div>
+</section>
+
+<!-- S14 main objectives -->
+<section class="slide">
+  <div class="reveal kicker">主要學習目標 · Mandatory — 你應該能夠…</div>
+  <div class="obj reveal">
+    <div class="o"><div class="on">1</div><div class="ob"><b>說明延髓區顱神經核的解剖與功能</b><p>CN V·VII·IX·X·XI·XII 的位置與功能，作為神經學定位的基礎；理解皮質延髓徑的雙側支配與例外（CN VII 下半臉、CN XII 頦舌肌為對側支配）。</p></div></div>
+    <div class="o"><div class="on">2</div><div class="ob"><b>區辨延髓麻痺 (Bulbar) 與假性延髓麻痺 (Pseudobulbar)</b><p>從舌頭外觀、咽反射、下頷反射、情緒表現，判讀 LMN vs UMN 的臨床差異 — 並理解病人可同時具備兩者。</p></div></div>
+    <div class="o"><div class="on">3</div><div class="ob"><b>描述運動神經元疾病的分類，並定位 PBP</b><p>ALS / PBP / PMA / PLS 的關係；PBP 是延髓起病的 ALS 表現型（約 22–35%），87% 最終進展為典型 ALS。</p></div></div>
+    <div class="o"><div class="on">4</div><div class="ob"><b>運用 Gold Coast 準則與電生理檢查發現</b><p>掌握三條件（漸進性運動障礙＋UMN/LMN 分佈＋排除其他）；認識 EMG 急性/慢性去神經證據與舌肌 EMG 的關鍵角色。</p></div></div>
+    <div class="o"><div class="on">5</div><div class="ob"><b>列舉 PBP 需鑑別診斷的疾病</b><p>重症肌無力 (MG)、甘迺迪氏症 (Kennedy/SBMA) 等 — 以及如何用抗體、感覺神經傳導、UMN 徵象、症狀波動性來區分。</p></div></div>
+  </div>
+</section>
+
+<!-- S15 optional objectives -->
+<section class="slide">
+  <div class="reveal kicker">次要學習目標 · Optional — 進階延伸</div>
+  <div class="obj opt reveal">
+    <div class="o"><div class="on">6</div><div class="ob"><b>討論運動神經元疾病的病理生理機轉</b><p>興奮性毒性（glutamate→Ca²⁺）、TDP-43 蛋白聚集、粒線體功能障礙、神經發炎、軸突運輸與 RNA 代謝異常等多重機轉交互作用，形成惡性循環。</p></div></div>
+    <div class="o"><div class="on">7</div><div class="ob"><b>認識 Riluzole、Tofersen 的機轉與適應症</b><p>Riluzole 全體適用、抑制 glutamate 釋放、延壽 2–3 月；Tofersen (ASO) 針對 SOD1 突變降解其 mRNA — MND 首個精準醫療藥物。</p></div></div>
+    <div class="o"><div class="on">8</div><div class="ob"><b>探討緩和醫療與臨終照護原則</b><p>SPIKES 告知、ACP/AD 時機、PEG/NIV 決策、語音銀行與 AAC — 緩和醫療應從確診即介入，而非末期才轉介。</p></div></div>
+  </div>
+  <div class="reveal lead" style="margin-top:1.5rem">核心心法：<b>診斷靠定位與證據，照護靠時機與人文。</b></div>
+</section>
+
+<!-- S16 group strengths -->
+<section class="slide">
+  <div class="reveal kicker">各組報告回饋 ① · 亮點 <span style="color:var(--faint);text-transform:none;letter-spacing:0;font-weight:400">（匿名呈現，組別代號不對應實際組號）</span></div>
+  <h2 class="reveal" style="font-size:clamp(1.7rem,3vw,2.6rem)">六組報告的<strong class="hl">亮點</strong></h2>
+  <div class="gwrap reveal">
+    <div class="gcard" style="--gc:var(--teal)"><div class="gh"><div class="gbadge">A</div><div class="gt">問題導向、整合最佳</div></div><p>以 Q&amp;A 串接「推理 1–7」收束，臨床決策邏輯清晰；文獻格式乾淨一致；概念圖以時序串聯、易讀。</p></div>
+    <div class="gcard" style="--gc:var(--green)"><div class="gh"><div class="gbadge">B</div><div class="gt">推理嚴謹、分區對應</div></div><p>依延髓／頸髓／胸髓分區對應 LMN 證據；PBA 與憂鬱症鑑別細緻；納入 ALS ALLOW 告知技巧。</p></div>
+    <div class="gcard" style="--gc:var(--sky)"><div class="gh"><div class="gbadge">C</div><div class="gt">內容最完整</div></div><p>兼具 El Escorial 與 Gold Coast 雙標準、台灣流行病學、完整鑑別診斷排除表與社會資源。</p></div>
+    <div class="gcard" style="--gc:var(--umn)"><div class="gh"><div class="gbadge">D</div><div class="gt">機轉解析深入</div></div><p>神經解剖機轉（CN 傳導路徑、皮質延髓徑）著墨深入；鑑別與檢驗判讀完整、文獻對應精準。</p></div>
+    <div class="gcard" style="--gc:var(--violet)"><div class="gh"><div class="gbadge">E</div><div class="gt">情緒迴路具巧思</div></div><p>對 PBA 與情緒迴路（Apathy/Anhedonia 腦區定位）解析具巧思；Riluzole 藥理機轉說明清楚。</p></div>
+    <div class="gcard" style="--gc:var(--amber)"><div class="gh"><div class="gbadge">F</div><div class="gt">檢查判讀清楚</div></div><p>構音障礙分型、MRI 序列（T1/T2/FLAIR）說明清楚；CK 與去神經化的關聯有文獻支持。</p></div>
+  </div>
+  <div class="common reveal">
+    <h4>✨ 共同亮點</h4>
+    <div class="row"><div>六組皆<b>正確收斂</b>至 ALS 光譜下的 PBP。</div><div>皆掌握 <b>UMN+LMN 並存、Gold Coast、Riluzole、PEG/NIV、SPIKES/ACP</b> 主軸。</div><div>整體水準高、文獻量充足、概念圖完成度佳。</div></div>
+  </div>
+</section>
+
+<!-- S17 group improvements -->
+<section class="slide">
+  <div class="reveal kicker">各組報告回饋 ② · 待改善與共同建議 <span style="color:var(--faint);text-transform:none;letter-spacing:0;font-weight:400">（匿名）</span></div>
+  <h2 class="reveal" style="font-size:clamp(1.7rem,3vw,2.6rem)">六組報告的<strong style="color:var(--lmn)">待改善</strong></h2>
+  <div class="gwrap reveal">
+    <div class="gcard warn" style="--gc:var(--teal)"><div class="gh"><div class="gbadge">A</div><div class="gt"><span class="lbl imp">待改善</span></div></div><p>少數英文專有名詞與中譯可再統一；整體已是範例等級。</p></div>
+    <div class="gcard warn" style="--gc:var(--green)"><div class="gh"><div class="gbadge">B</div><div class="gt"><span class="lbl imp">待改善</span></div></div><p>全文夾雜<b>非標準字形</b>（説／聼／麻痹），宜統一為繁體標準字（說／聽／麻痺）。</p></div>
+    <div class="gcard warn" style="--gc:var(--sky)"><div class="gh"><div class="gbadge">C</div><div class="gt"><span class="lbl imp">待改善</span></div></div><p>封面學年<b>誤植「113」</b>應為 114；篇幅與概念圖密度偏高，建議精簡並強化重點層次。</p></div>
+    <div class="gcard warn" style="--gc:var(--umn)"><div class="gh"><div class="gbadge">D</div><div class="gt"><span class="lbl imp">待改善</span></div></div><p>篇幅偏長、部分表格可精簡；概念圖出現<b>人名筆誤</b>，宜校對。</p></div>
+    <div class="gcard warn" style="--gc:var(--violet)"><div class="gh"><div class="gbadge">E</div><div class="gt"><span class="lbl imp">待改善</span></div></div><p><b>參考文獻數筆與內文不符（張冠李戴）</b>、概念圖殘留範本提示字 — 務必逐筆核對 DOI 與題名。</p></div>
+    <div class="gcard warn" style="--gc:var(--amber)"><div class="gh"><div class="gbadge">F</div><div class="gt"><span class="lbl imp">待改善</span></div></div><p>封面留<b>範本「教案名稱」未填</b>、文獻夾雜整段英文摘要與空白條目、概念圖殘留範本字。</p></div>
+  </div>
+  <div class="common warn reveal">
+    <h4>⚠️ 共同 Pitfalls — 全班請特別注意</h4>
+    <div class="row">
+      <div>① <b>參考文獻校對</b>（最普遍）：逐筆核對 DOI／題名，清除書目軟體雜訊與張冠李戴。</div>
+      <div>② <b>繳交前自我檢查</b>：封面學年、教案名稱 placeholder、概念圖殘留範本字。</div>
+      <div>③ <b>繁體字形一致</b>：統一標準字（說／聽／麻痺）。</div>
+      <div>④ <b>篇幅聚焦</b>：以「各幕推理小結」收束，避免冗長堆砌。</div>
+    </div>
+  </div>
+</section>
+
+<!-- S18 take-home -->
+<section class="slide">
+  <div class="reveal kicker">一頁帶走 · Take-home messages</div>
+  <h2 class="reveal">六個重點，記住這個教案</h2>
+  <div class="takeaways reveal">
+    <div class="ta"><div class="ti">🧭</div><div><b>MND 是一個疾病光譜</b><p>PBP = 延髓起病 ALS，87% 最終出現四肢症狀；分類影響預後與治療選擇。</p></div></div>
+    <div class="ta"><div class="ti">⚖️</div><div><b>UMN + LMN 並存 = 關鍵線索</b><p>brisk jaw jerk（UMN）+ 舌萎縮/顫動（LMN）= 典型 ALS/PBP。</p></div></div>
+    <div class="ta"><div class="ti">🔍</div><div><b>務必排除 MG 與 Kennedy</b><p>MG 無 UMN、抗體陽性、症狀波動；Kennedy 有感覺異常、X-linked 男性。</p></div></div>
+    <div class="ta"><div class="ti">📐</div><div><b>Gold Coast 2020：證據累積</b><p>臨床＋EMG 多區域證據；舌肌 EMG 對延髓型敏感度近 100%。</p></div></div>
+    <div class="ta"><div class="ti">💊</div><div><b>Riluzole 確診即用、終身使用</b><p>SOD1 突變者加 Tofersen（鞘內注射）；NIV/PEG 把握時機。</p></div></div>
+    <div class="ta"><div class="ti">🤝</div><div><b>緩和與人文從第一天開始</b><p>SPIKES + ACP + 語音銀行；趁病人仍能表達時討論。</p></div></div>
+  </div>
+  <div class="reveal eng" style="margin-top:1.5rem;text-align:center;font-size:1.3rem">「醫師的任務不是治癒，而是減輕苦難、維護尊嚴。」 — 謝謝大家</div>
+</section>
+
+</div>
+
+<script>
+const CMAP=[
+ {c:'var(--sky)',t:'臨床表現演進',e:'Clinical progression',cols:[
+   {h:'早期（半年前）',li:['聲音沙啞（誤為感冒後遺症）','構音困難：舌頭不聽使喚、捲舌音費力','學生反映上課聲音異常']},
+   {h:'進展（近一個月）',li:['吞嚥困難：喝水嗆咳、進食變慢','假性延髓情感：無預警大笑大哭','情緒與情境不符']},
+   {h:'日常生活影響',li:['教學工作受阻','家人擔憂','身分認同衝擊']}
+ ]},
+ {c:'var(--umn)',t:'神經學檢查發現',e:'Neurological exam',cols:[
+   {h:'UMN 徵象',li:['下頷反射增強 (brisk jaw jerk)','深部肌腱反射 3+','Hoffman sign (+)']},
+   {h:'LMN 徵象',li:['舌頭萎縮（CN XII 核）','舌肌束顫動 (fasciculation)','咽反射減弱 (CN IX·X)']},
+   {h:'延髓區症狀群',li:['軟顎上抬無力','聲音沙啞帶鼻音','雙側顏面表情略僵硬']}
+ ]},
+ {c:'var(--lmn)',t:'診斷檢查策略',e:'Diagnostic workup',cols:[
+   {h:'實驗室',li:['CK 385 U/L → 提示肌肉病變','Anti-AChR / MuSK 陰性（排除 MG）','CBC、肝腎、甲狀腺正常']},
+   {h:'神經電生理',li:['舌肌+多處：纖維顫動/束顫電位','運動單位大振幅、長時程、多相波','神經傳導正常 → 排除周邊神經病變']},
+   {h:'影像 (MRI)',li:['無腫瘤/血管病變/脊髓壓迫','皮質脊髓徑 T2/FLAIR 高訊號','無脫髓鞘 → 排除 MS']}
+ ]},
+ {c:'var(--teal)',t:'確診與分類',e:'Diagnosis & spectrum',cols:[
+   {h:'診斷 PBP',li:['符合 Gold Coast 準則','延髓區 UMN+LMN 並存','排除其他鑑別診斷']},
+   {h:'與 ALS 的關係',li:['PBP = ALS 延髓型（約 22–35%）','預後較差：中位存活 20–27 月','87% 最終進展為典型 ALS']}
+ ]},
+ {c:'var(--green)',t:'治療與照護計畫',e:'Treatment & care',cols:[
+   {h:'藥物',li:['Riluzole（抑制 glutamate）','SOD1 突變 → Tofersen','PBA → Nuedexta']},
+   {h:'營養 / 呼吸',li:['PEG：體重↓>10% 或 FVC>50%','定期 FVC、NIV','咳痰訓練、分泌物處理']},
+   {h:'復健與輔具',li:['語言治療、AAC、語音銀行','物理/職能治療','維持關節活動度']}
+ ]},
+ {c:'var(--rose)',t:'緩和醫療與人文',e:'Palliative & humanities',cols:[
+   {h:'病情告知 (SPIKES)',li:['營造環境、評估認知','淺顯說明、給予希望','回應情緒、訂下一步']},
+   {h:'預立醫療決定',li:['治療選擇：氣切/呼吸器/急救','ACP 及早討論','家屬溝通與支持']},
+   {h:'心理社會 / 症狀',li:['社工、長照、病友團體','心理諮商','流涎/疼痛/情緒控制']}
+ ]}
+];
+
+const slides=[...document.querySelectorAll('.slide')];
+const sections=[2,12];
+let i=0;
+const bar=document.getElementById('bar');
+const cnum=document.getElementById('cnum');
+document.getElementById('ctot').textContent=String(slides.length).padStart(2,'0');
+const dotsWrap=document.getElementById('dots');
+slides.forEach((s,idx)=>{const d=document.createElement('i');if(sections.includes(idx))d.classList.add('sec');d.onclick=()=>go(idx);dotsWrap.appendChild(d);});
+const dots=[...dotsWrap.children];
+
+function go(n){
+  n=Math.max(0,Math.min(slides.length-1,n));
+  slides[i].classList.remove('active');slides[i].classList.add('prev');
+  i=n;
+  slides.forEach((s,idx)=>{if(idx!==i)s.classList.remove('active');});
+  slides[i].classList.remove('prev');slides[i].classList.add('active');
+  slides[i].scrollTop=0;
+  bar.style.width=((i)/(slides.length-1)*100)+'%';
+  cnum.textContent=String(i+1).padStart(2,'0');
+  dots.forEach((d,idx)=>d.classList.toggle('on',idx===i));
+  if(slides[i].id==='cmapSlide')requestAnimationFrame(drawLines);
+}
+function next(){go(i+1)}function prev(){go(i-1)}
+document.getElementById('next').onclick=next;
+document.getElementById('prev').onclick=prev;
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='PageDown'){next();}
+  else if(e.key==='ArrowLeft'||e.key==='PageUp'){prev();}
+  else if(e.key===' '){e.preventDefault();next();}
+  else if(e.key==='Home'){go(0);}else if(e.key==='End'){go(slides.length-1);}
+  else if(e.key.toLowerCase()==='f'){toggleFs();}
+  else if(slides[i].id==='cmapSlide'&&/^[1-6]$/.test(e.key)){selBranch(+e.key-1);}
+});
+function toggleFs(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();}
+
+const cmap=document.getElementById('cmap');
+const lines=document.getElementById('lines');
+const cdetail=document.getElementById('cdetail');
+const branches=[...document.querySelectorAll('.branch')];
+let selectedBranch=-1;
+function center(el){const r=el.getBoundingClientRect();const c=cmap.getBoundingClientRect();return {x:r.left-c.left+r.width/2,y:r.top-c.top+r.height/2};}
+function drawLines(){
+  const c=cmap.getBoundingClientRect();
+  lines.setAttribute('viewBox',`0 0 ${c.width} ${c.height}`);
+  const hub=center(document.querySelector('.hub'));
+  lines.innerHTML='';
+  branches.forEach((b,idx)=>{
+    const p=center(b);const col=getComputedStyle(b).getPropertyValue('--bc').trim();
+    const mx=(hub.x+p.x)/2;
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d',`M ${hub.x} ${hub.y} C ${mx} ${hub.y}, ${mx} ${p.y}, ${p.x} ${p.y}`);
+    path.setAttribute('stroke',col);path.setAttribute('fill','none');
+    path.setAttribute('stroke-width',selectedBranch===idx?'3.4':'1.7');
+    path.setAttribute('opacity',selectedBranch===-1?'.55':(selectedBranch===idx?'.95':'.18'));
+    lines.appendChild(path);
+  });
+}
+function selBranch(idx){
+  selectedBranch=idx;
+  branches.forEach((b,k)=>b.classList.toggle('sel',k===idx));
+  const d=CMAP[idx];
+  cdetail.classList.remove('hintmode');
+  cdetail.innerHTML=`<div class="dh"><b><span class="dot" style="background:${d.c}"></span>${d.t}</b><span>${d.e}</span></div>
+    <div class="dcols">${d.cols.map(c=>`<div class="dcol"><h5>${c.h}</h5><ul>${c.li.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>`;
+  drawLines();
+}
+branches.forEach(b=>b.onclick=()=>selBranch(+b.dataset.i));
+window.addEventListener('resize',()=>{if(slides[i].id==='cmapSlide')drawLines();});
+
+go(0);
+</script>
+</body>
+</html>
