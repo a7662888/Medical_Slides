@@ -216,6 +216,7 @@ const btnNext = document.getElementById('btn-next');
 
 function renderSlide(index) {
   slideArea.innerHTML = SLIDES[index];
+  slideArea.firstElementChild.classList.add('active');
   currentSlide = index;
   slideIndicator.textContent = `${index + 1} / ${SLIDES.length}`;
   btnPrev.disabled = index === 0;
