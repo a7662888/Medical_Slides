@@ -5,317 +5,196 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ICH 局部生醫材料治療 — 互動簡報（小瑋語音）</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; background: #0a1628; color: #e8edf2; overflow: hidden; }
-  
-  #container { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
-  #slide-area { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; }
-  .slide { position: absolute; width: 90%; max-width: 1100px; height: 85%; 
-           background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 50%, #0d1b2a 100%);
-           border-radius: 12px; box-shadow: 0 8px 40px rgba(0,0,0,0.5);
-           display: none; flex-direction: column; padding: 40px 50px; overflow: hidden; }
-  .slide.active { display: flex; }
-  .slide .footer-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #4fc3f7, #26c6da, #4fc3f7); }
-  .slide .slide-num { position: absolute; bottom: 12px; right: 24px; font-size: 12px; color: #4a6a8a; }
-
-  .slide h2 { font-size: 30px; color: #4fc3f7; margin-bottom: 6px; font-weight: 600; }
-  .slide .section-line { width: 60px; height: 2px; background: #26c6da; margin-bottom: 22px; border-radius: 1px; }
-  .slide h3 { font-size: 18px; color: #81d4fa; margin: 16px 0 8px; font-weight: 500; }
-  
-  .card-grid { display: grid; gap: 14px; flex: 1; }
-  .grid-2 { grid-template-columns: 1fr 1fr; }
-  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
-  .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 16px 18px; }
-  .card h4 { font-size: 15px; color: #4fc3f7; margin-bottom: 6px; }
-  .card p, .card li { font-size: 12px; color: #b0bec5; line-height: 1.55; }
-  .card ul { padding-left: 18px; }
-  .highlight { color: #26c6da; font-weight: 600; }
-  .tag { display: inline-block; background: rgba(79,195,247,0.15); color: #4fc3f7; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin: 2px; }
-  
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
-  .stat-big { font-size: 44px; font-weight: 700; color: #4fc3f7; }
-  .stat-label { font-size: 13px; color: #81d4fa; }
-  
-  .table-wrap { overflow-y: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); margin: 10px 0; }
-  table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  th { background: rgba(79,195,247,0.12); color: #4fc3f7; padding: 8px 10px; text-align: left; font-weight: 600; position: sticky; top: 0; }
-  td { padding: 6px 10px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #b0bec5; }
-  
-  .info-box { padding: 10px 14px; border-radius: 4px; font-size: 12px; margin-top: 10px; }
-  .info-warn { background: rgba(239,83,80,0.08); border-left: 3px solid #ef5350; color: #b0bec5; }
-  .info-ok { background: rgba(38,198,218,0.08); border-left: 3px solid #26c6da; color: #b0bec5; }
-  .info-warn strong { color: #ef5350; }
-  .info-ok strong { color: #26c6da; }
-
-  .goal-icon { font-size: 32px; margin-bottom: 6px; }
-  
-  .title-center { text-align: center; justify-content: center; align-items: center; }
-  .title-center h1 { font-size: 38px; color: #4fc3f7; font-weight: 700; margin-bottom: 12px; }
-  .title-center .subtitle { font-size: 20px; color: #81d4fa; margin-bottom: 30px; }
-  .title-center .accent-line { width: 100px; height: 3px; background: linear-gradient(90deg, #4fc3f7, #26c6da); margin: 16px auto; border-radius: 2px; }
-
-  /* Controls */
-  #controls { height: 64px; display: flex; align-items: center; justify-content: center; gap: 16px; background: #0d1b2a; border-top: 1px solid rgba(255,255,255,0.06); }
-  #controls button { background: rgba(79,195,247,0.12); border: 1px solid rgba(79,195,247,0.25); color: #4fc3f7; padding: 8px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; font-family: inherit; transition: all 0.2s; }
-  #controls button:hover { background: rgba(79,195,247,0.25); }
-  #controls button:disabled { opacity: 0.3; cursor: default; }
-  #controls .play-btn { font-size: 18px; padding: 8px 16px; min-width: 40px; }
-  #progress { width: 200px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
-  #progress-bar { height: 100%; background: linear-gradient(90deg, #4fc3f7, #26c6da); width: 0%; transition: width 0.3s; }
-  #slide-indicator { font-size: 13px; color: #546e7a; min-width: 60px; text-align: center; }
-  #status-text { font-size: 12px; color: #546e7a; min-width: 80px; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Microsoft JhengHei',sans-serif;background:#0a1628;color:#e8edf2;overflow:hidden}
+#container{width:100vw;height:100vh;display:flex;flex-direction:column}
+#slide-area{flex:1;display:flex;align-items:center;justify-content:center;position:relative}
+.slide{position:absolute;width:90%;max-width:1100px;height:85%;background:linear-gradient(135deg,#0d1b2a,#1b2838 50%,#0d1b2a);border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);display:none;flex-direction:column;padding:40px 50px;overflow:hidden}
+.slide.show{display:flex}
+.fbar{position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#4fc3f7,#26c6da,#4fc3f7)}
+.snum{position:absolute;bottom:12px;right:24px;font-size:12px;color:#4a6a8a}
+h2{font-size:30px;color:#4fc3f7;margin-bottom:6px;font-weight:600}
+.sline{width:60px;height:2px;background:#26c6da;margin-bottom:22px;border-radius:1px}
+h3{font-size:18px;color:#81d4fa;margin:16px 0 8px;font-weight:500}
+.grid{display:grid;gap:14px;flex:1}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:16px 18px}
+.card h4{font-size:15px;color:#4fc3f7;margin-bottom:6px}
+.card p,.card li{font-size:12px;color:#b0bec5;line-height:1.55}
+.card ul{padding-left:18px}
+.hl{color:#26c6da;font-weight:600}
+.tag{display:inline-block;background:rgba(79,195,247,.15);color:#4fc3f7;padding:2px 8px;border-radius:4px;font-size:11px;margin:2px}
+.col2{display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1}
+.sbig{font-size:44px;font-weight:700;color:#4fc3f7}
+.slab{font-size:13px;color:#81d4fa}
+.twrap{overflow-y:auto;border-radius:8px;border:1px solid rgba(255,255,255,.08);margin:10px 0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:rgba(79,195,247,.12);color:#4fc3f7;padding:8px 10px;text-align:left;font-weight:600;position:sticky;top:0}
+td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:#b0bec5}
+.ibox{padding:10px 14px;border-radius:4px;font-size:12px;margin-top:10px}
+.iwarn{background:rgba(239,83,80,.08);border-left:3px solid #ef5350;color:#b0bec5}
+.iok{background:rgba(38,198,218,.08);border-left:3px solid #26c6da;color:#b0bec5}
+.iwarn b{color:#ef5350}.iok b{color:#26c6da}
+.gicon{font-size:32px;margin-bottom:6px}
+.tc{text-align:center;justify-content:center;align-items:center}
+.tc h1{font-size:38px;color:#4fc3f7;font-weight:700;margin-bottom:12px}
+.tc .sub{font-size:20px;color:#81d4fa;margin-bottom:30px}
+.tc .accent{width:100px;height:3px;background:linear-gradient(90deg,#4fc3f7,#26c6da);margin:16px auto;border-radius:2px}
+#ctrls{height:64px;display:flex;align-items:center;justify-content:center;gap:16px;background:#0d1b2a;border-top:1px solid rgba(255,255,255,.06)}
+#ctrls button{background:rgba(79,195,247,.12);border:1px solid rgba(79,195,247,.25);color:#4fc3f7;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit;transition:all .2s}
+#ctrls button:hover{background:rgba(79,195,247,.25)}
+#ctrls button:disabled{opacity:.3;cursor:default}
+#ctrls .pbtn{font-size:18px;padding:8px 16px;min-width:40px}
+#prog{width:200px;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+#pbar{height:100%;background:linear-gradient(90deg,#4fc3f7,#26c6da);width:0;transition:width .3s}
+#ind{font-size:13px;color:#546e7a;min-width:60px;text-align:center}
+#sts{font-size:12px;color:#546e7a;min-width:80px}
 </style>
 </head>
 <body>
 <div id="container">
-  <div id="slide-area">
-    <!-- Slides injected by JS -->
-  </div>
-  <div id="controls">
-    <button onclick="prevSlide()" id="btn-prev" title="上一張">◀</button>
-    <button class="play-btn" onclick="togglePlay()" id="btn-play">▶</button>
-    <button onclick="nextSlide()" id="btn-next" title="下一張">▶</button>
-    <div id="progress"><div id="progress-bar"></div></div>
-    <span id="slide-indicator">1 / 12</span>
-    <span id="status-text">準備播放</span>
-  </div>
+<div id="slide-area">
+
+<div class="slide tc show" id="s1">
+  <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#4fc3f7,#26c6da,#4fc3f7)"></div>
+  <h1>腦出血局部生醫材料治療</h1><div class="accent"></div>
+  <div class="sub">材料分類、代表研究與三大治療目標<br>Intracerebral Hemorrhage — Biomaterial-Assisted Local Therapy</div>
+  <div class="slab" style="margin-top:20px">系統性回顧整理 · 2026 年 6 月 · 黃博浩醫師實驗室</div>
+  <div class="snum">1 / 12</div>
 </div>
 
-<audio id="audio" preload="none"></audio>
+<div class="slide" id="s2"><h2>為什麼是腦出血＋生醫材料？</h2><div class="sline"></div>
+<div class="col2"><div><div class="card" style="margin-bottom:12px"><h4>🧠 臨床困境</h4><ul><li>腦出血佔中風 10-15%，但死亡率高達 <span class="hl">40%</span></li><li>目前無有效藥物——僅支持性治療＋手術減壓</li><li>血腫清除後留下 <span class="hl">空腔（cavity）</span>——天然的局部給藥窗口</li></ul></div>
+<div class="card"><h4>💡 生醫材料的機會</h4><ul><li>立體定位注射 → <span class="hl">精準局部給藥</span></li><li>材料本身可做支架、載體、或活性治療</li><li>繞過血腦屏障，直接在病灶發揮作用</li></ul></div></div>
+<div class="card" style="display:flex;align-items:center;justify-content:center;margin-top:8px"><div style="text-align:center"><div class="sbig">12</div><div class="slab">篇確認納入研究</div><div style="margin:10px 0;height:2px;background:rgba(255,255,255,.08)"></div><div style="display:flex;gap:40px;justify-content:center"><div><span style="font-size:24px;color:#4fc3f7">9</span><span class="slab" style="display:block">水膠</span></div><div><span style="font-size:24px;color:#26c6da">3</span><span class="slab" style="display:block">支架</span></div></div></div></div></div>
+<div class="fbar"></div><div class="snum">2 / 12</div></div>
 
+<div class="slide" id="s3"><h2>材料分類總覽</h2><div class="sline"></div>
+<div class="grid g3">
+<div class="card"><div class="gicon">🧪</div><h4>水膠（Hydrogel）</h4><p>高含水量的三維聚合物網絡，模擬腦組織力學特性。可注射、可生物降解、可搭載細胞或藥物。</p><div style="margin-top:8px"><span class="tag">明膠</span><span class="tag">自組裝肽</span><span class="tag">DNA 水膠</span><span class="tag">腦 ECM</span></div><p style="margin-top:8px;font-size:12px;color:#4fc3f7">9 篇研究</p></div>
+<div class="card"><div class="gicon">🏗️</div><h4>支架（Scaffold）</h4><p>具備特定三維結構，提供細胞附著與生長的物理支撐。可 3D 列印、可搭載藥物。</p><div style="margin-top:8px"><span class="tag">3D 列印</span><span class="tag">腦 ECM bioink</span><span class="tag">ROS 響應型</span></div><p style="margin-top:8px;font-size:12px;color:#26c6da">3 篇研究</p></div>
+<div class="card"><div class="gicon">🔬</div><h4>奈米粒子</h4><p>奈米級載體。本回顧中多數為全身給藥，<span class="hl">不符合局部治療納入標準</span>。</p><div style="margin-top:8px"><span class="tag">奈米硒</span><span class="tag">微脂體</span></div><p style="margin-top:8px;font-size:12px;color:#ef5350">多數排除（全身給藥）</p></div></div>
+<div class="ibox iwarn"><b>⚠️ 關鍵發現：</b>7 篇奈米粒子研究中，5 篇因全身給藥（IV/IP/oral）被排除。真正有效的局部治療集中在水膠與支架兩大類。</div>
+<div class="fbar"></div><div class="snum">3 / 12</div></div>
+
+<div class="slide" id="s4"><h2>水膠詳解（一）：天然與半合成</h2><div class="sline"></div>
+<div class="twrap"><table>
+<tr><th>PMID</th><th>材料</th><th>特色</th><th>搭載物</th><th>代表性結果</th></tr>
+<tr><td>32760708</td><td><span class="hl">明膠水膠</span><br>Gelatin-PEGDA</td><td>Michael addition 交聯<br>可注射、生物相容</td><td>無</td><td>神經缺損分數顯著改善<br>M1→M2 微膠細胞極化</td></tr>
+<tr><td>37853252</td><td><span class="hl">自組裝肽水膠</span><br>Alpha2 (PeptiGel)</td><td>彈性模量 1.7 kPa<br>模擬腦組織軟硬度</td><td>無</td><td>安全、無不良反應<br>促進細胞增生（Ki67+）</td></tr>
+<tr><td>41892579</td><td><span class="hl">自組裝肽＋SVF</span><br>SAP-HGF + SVF</td><td>HGF 功能化<br>結合基質血管分離細胞</td><td>SVF 細胞</td><td>細胞＋材料協同治療<br>局部滯留與緩釋</td></tr>
+<tr><td>41274977</td><td><span class="hl">幾丁聚醣＋BDNF</span><br>Chitosan-BDNF</td><td>基因治療載體<br>促進神經新生</td><td>BDNF 質體</td><td>神經保護＋神經新生<br>黃醫師團隊相關技術</td></tr>
+</table></div>
+<div class="fbar"></div><div class="snum">4 / 12</div></div>
+
+<div class="slide" id="s5"><h2>水膠詳解（二）：智慧型與 ECM 衍生</h2><div class="sline"></div>
+<div class="twrap"><table>
+<tr><th>PMID</th><th>材料</th><th>特色</th><th>搭載物</th><th>代表性結果</th></tr>
+<tr><td>39141742</td><td><span class="hl">DNA 智慧水膠</span></td><td>血紅蛋白響應型<br>診斷＋治療（theranostic）</td><td>DFO 鐵螯合劑</td><td>血腫體積顯著減少<br>偵測再出血</td></tr>
+<tr><td>40265103</td><td><span class="hl">腦 ECM 水膠</span></td><td>去細胞腦基質<br>保留原生微環境訊號</td><td>無</td><td>促進神經元遷移<br>功能性恢復</td></tr>
+<tr><td>40254565</td><td><span class="hl">腦 ECM＋外泌體</span></td><td>3D 列印成形<br>搭載幹細胞外泌體</td><td>外泌體</td><td>抗神經發炎<br>促進神經修復</td></tr>
+<tr><td>40181802</td><td><span class="hl">水膠網格共培養</span></td><td>NSC＋HUVEC<br>神經幹細胞＋內皮細胞</td><td>NSC+HUVEC</td><td>促進軸突再生<br>血管新生輔助</td></tr>
+</table></div>
+<div class="fbar"></div><div class="snum">5 / 12</div></div>
+
+<div class="slide" id="s6"><h2>支架材料詳解</h2><div class="sline"></div>
+<div class="twrap"><table>
+<tr><th>PMID</th><th>材料</th><th>特色</th><th>搭載物</th><th>代表性結果</th></tr>
+<tr><td>39420402</td><td><span class="hl">3D 支架＋Bergenin</span></td><td>GelMA/SF/dECM<br>ROS 清除＋抗鐵死亡</td><td>Bergenin</td><td>血腫＋腦水腫顯著減少<br>NF-κB 抑制＋Nrf-2 活化</td></tr>
+<tr><td>40796885</td><td><span class="hl">3D 細胞支架</span></td><td>腦 ECM bioink<br>3D 列印含細胞支架</td><td>細胞</td><td>細胞存活＋功能性整合</td></tr>
+<tr><td>41088427</td><td><span class="hl">ROS 響應型支架</span></td><td>活性氧響應降解<br>低氧預處理胞外囊泡</td><td>低氧 EVs</td><td>標靶神經發炎調節<br>智慧釋放系統</td></tr>
+<tr><td>35966129</td><td><span class="hl">肽支架＋BMSC</span></td><td>注射型細胞支架<br>骨髓基質細胞移植</td><td>BMSC</td><td>慢性 ICH 模型<br>細胞＋支架協同</td></tr>
+</table></div>
+<div class="fbar"></div><div class="snum">6 / 12</div></div>
+
+<div class="slide" id="s7"><h2>三大治療目標</h2><div class="sline"></div>
+<div class="grid g3">
+<div class="card" style="text-align:center"><div class="gicon">🛡️</div><h4>目標一：抗發炎與神經保護</h4><p style="margin-top:6px">抑制微膠細胞過度活化<br>減少促發炎細胞激素<br>對抗氧化壓力</p><div style="margin-top:8px;padding:6px;background:rgba(79,195,247,.08);border-radius:6px;font-size:11px;color:#4fc3f7">7 篇研究<br>M1→M2 極化為共同機制</div></div>
+<div class="card" style="text-align:center"><div class="gicon">🌱</div><h4>目標二：神經再生與修復</h4><p style="margin-top:6px">促進神經元存活與新生<br>軸突再生<br>血管新生支援</p><div style="margin-top:8px;padding:6px;background:rgba(79,195,247,.08);border-radius:6px;font-size:11px;color:#4fc3f7">5 篇研究<br>BDNF/NSC/BMSC 策略</div></div>
+<div class="card" style="text-align:center"><div class="gicon">🩸</div><h4>目標三：血腫與鐵離子管理</h4><p style="margin-top:6px">加速血腫清除<br>螯合游離鐵<br>減少鐵死亡</p><div style="margin-top:8px;padding:6px;background:rgba(79,195,247,.08);border-radius:6px;font-size:11px;color:#4fc3f7">3 篇研究<br>DFO/Bergenin 關鍵</div></div></div>
+<div style="margin-top:14px;text-align:center;font-size:12px;color:#546e7a">多數研究同時涉及 ≥2 個治療目標，反映生醫材料的多功能性</div>
+<div class="fbar"></div><div class="snum">7 / 12</div></div>
+
+<div class="slide" id="s8"><h2>🛡️ 目標一：抗發炎與神經保護</h2><div class="sline"></div>
+<div class="col2"><div><div class="card" style="margin-bottom:10px"><h4>病理機制</h4><p>ICH 後血腫釋放血紅蛋白與鐵離子 → <span class="hl">微膠細胞過度活化</span> → 促發炎因子風暴（IL-1β, TNF-α, IL-6）→ 神經元死亡</p></div>
+<div class="card"><h4>材料策略</h4><ul><li><span class="hl">明膠水膠</span>：抑制 M1、促進 M2 極化</li><li><span class="hl">Bergenin 支架</span>：NF-κB 抑制＋Nrf-2 活化</li><li><span class="hl">ROS 響應支架</span>：低氧 EVs 標靶調節發炎</li><li><span class="hl">腦 ECM 水膠</span>：抗發炎微環境</li></ul></div></div>
+<div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><div style="font-size:13px;color:#81d4fa;margin-bottom:8px">共同路徑</div><div style="font-size:16px;color:#4fc3f7;font-weight:600">M1 微膠細胞</div><div style="font-size:20px;color:#26c6da;margin:8px 0">↓</div><div style="font-size:16px;color:#4fc3f7;font-weight:600">M2 微膠細胞</div><div style="margin-top:12px;font-size:11px;color:#b0bec5">促發炎 → 抗發炎轉換<br>減少神經元喪失<br>改善行為恢復</div></div></div>
+<div class="fbar"></div><div class="snum">8 / 12</div></div>
+
+<div class="slide" id="s9"><h2>🌱 目標二：神經再生與修復</h2><div class="sline"></div>
+<div class="grid g2">
+<div class="card"><h4>🧬 基因治療策略</h4><p style="margin-bottom:6px"><span class="hl">BDNF 質體水膠</span>（41274977）</p><ul><li>幾丁聚醣水膠搭載 BDNF 質體 DNA</li><li>局部轉染 → 持續分泌 BDNF</li><li>促進神經保護＋神經新生</li></ul></div>
+<div class="card"><h4>🧫 細胞治療策略</h4><p style="margin-bottom:6px"><span class="hl">多種細胞來源</span></p><ul><li>NSC＋HUVEC 共培養：軸突＋血管新生</li><li>BMSC 移植：慢性 ICH 修復</li><li>SVF 細胞：基質血管分離細胞</li><li>外泌體：無細胞治療</li></ul></div></div>
+<div class="ibox iwarn" style="margin-top:12px"><b>⚠️ 轉譯缺口：</b>神經再生需 ≥28 天觀察。目前多數研究觀察期 ≤14 天，長期功能性恢復數據不足。</div>
+<div class="fbar"></div><div class="snum">9 / 12</div></div>
+
+<div class="slide" id="s10"><h2>🩸 目標三：血腫與鐵離子管理</h2><div class="sline"></div>
+<div class="col2"><div class="card"><h4>鐵毒性的雙重打擊</h4><p style="margin-bottom:6px">血腫溶解 → 釋放游離血紅蛋白與鐵離子</p><ul><li>Fenton 反應 → 活性氧（ROS）爆發</li><li>脂質過氧化 → <span class="hl">鐵死亡（ferroptosis）</span></li><li>二次腦損傷持續數天至數週</li></ul></div>
+<div class="card"><h4>材料介入策略</h4><ul><li><span class="hl">DNA 水膠＋DFO</span>：血紅蛋白響應釋放鐵螯合劑＋偵測再出血</li><li><span class="hl">Bergenin 支架</span>：減少 MDA、增加 GSH</li><li><span class="hl">奈米硒</span>：Nrf2/GPX4 路徑活化</li></ul></div></div>
+<div class="card" style="margin-top:12px;text-align:center"><div style="display:flex;gap:20px;justify-content:center"><div><span style="font-size:22px">🧹</span><div style="font-size:11px;color:#b0bec5">加速血腫清除</div></div><div><span style="font-size:22px">🛡️</span><div style="font-size:11px;color:#b0bec5">螯合游離鐵</div></div><div><span style="font-size:22px">📡</span><div style="font-size:11px;color:#b0bec5">theranostic 平台</div></div></div></div>
+<div class="fbar"></div><div class="snum">10 / 12</div></div>
+
+<div class="slide" id="s11"><h2>轉譯就緒度評估</h2><div class="sline"></div>
+<div class="twrap"><table>
+<tr><th>轉譯維度</th><th>現狀</th><th>缺口</th></tr>
+<tr><td><span class="hl">給藥時機</span></td><td>大多在 ICH 後 2h–7d 給藥，臨床上合理</td><td>最佳時間窗未系統比較</td></tr>
+<tr><td><span class="hl">空腔遞送</span></td><td>100% 使用立體定位注射，與臨床手術路徑一致</td><td>缺大型動物驗證</td></tr>
+<tr><td><span class="hl">局部安全性</span></td><td>所有研究報告良好耐受性</td><td>長期（大於3個月）數據不足</td></tr>
+<tr><td><span class="hl">長期功能恢復</span></td><td>多數觀察二十八天以內</td><td>需大於三個月追蹤</td></tr>
+<tr><td><span class="hl">製程可擴展</span></td><td>實驗室規模，部分有 GMP 潛力</td><td>無菌生產＋品管標準</td></tr>
+</table></div>
+<div class="ibox iok" style="margin-top:10px"><b>✅ 整體評估：</b>局部水膠/支架策略在 ICH 術後空腔給藥具有高度臨床合理性。關鍵下一步：大型動物驗證＋長期安全性＋標準化功能評估。</div>
+<div class="fbar"></div><div class="snum">11 / 12</div></div>
+
+<div class="slide" id="s12"><h2>核心訊息</h2><div class="sline"></div>
+<div class="grid g2" style="align-content:center">
+<div class="card tc"><div style="font-size:36px;margin-bottom:6px">🧪</div><h4>水膠是主力</h4><p>9 篇研究涵蓋天然、合成、智慧型材料，可注射、可降解、可功能化</p></div>
+<div class="card tc"><div style="font-size:36px;margin-bottom:6px">🎯</div><h4>一材料多功能</h4><p>最佳策略同時抗發炎、促再生、管血腫——而非單一藥理靶點</p></div>
+<div class="card tc"><div style="font-size:36px;margin-bottom:6px">💉</div><h4>局部給藥是關鍵</h4><p>全身給藥奈米粒子多被排除——ICH 術後空腔是生醫材料的天然舞台</p></div>
+<div class="card tc"><div style="font-size:36px;margin-bottom:6px">🚀</div><h4>轉譯就在眼前</h4><p>12 篇研究的共同證據指向臨床可行性——就差最後一哩路</p></div></div>
+<div style="margin-top:20px;text-align:center;font-size:13px;color:#546e7a">本簡報基於系統性回顧初步結果 · 黃博浩醫師實驗室 · 2026</div>
+<div class="fbar"></div><div class="snum">12 / 12</div></div>
+
+</div>
+<div id="ctrls">
+<button onclick="prev()" id="bp" title="上一張">&#9664;</button>
+<button class="pbtn" onclick="tog()" id="bpl">&#9654;</button>
+<button onclick="next()" id="bn" title="下一張">&#9654;</button>
+<div id="prog"><div id="pbar"></div></div>
+<span id="ind">1 / 12</span>
+<span id="sts">點擊 ▶ 播放</span>
+</div>
+</div>
+<audio id="au" preload="none"></audio>
 <script>
-const SLIDES = [
-  // 1: Title
-  `<div class="slide title-center">
-    <div style="position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#4fc3f7,#26c6da,#4fc3f7)"></div>
-    <h1>腦出血局部生醫材料治療</h1><div class="accent-line"></div>
-    <div class="subtitle">材料分類、代表研究與三大治療目標<br>Intracerebral Hemorrhage — Biomaterial-Assisted Local Therapy</div>
-    <div class="stat-label" style="margin-top:20px">系統性回顧整理 · 2026 年 6 月 · 黃博浩醫師實驗室</div>
-    <div class="slide-num">1 / 12</div>
-  </div>`,
-  
-  // 2: Why ICH
-  `<div class="slide"><h2>為什麼是腦出血＋生醫材料？</h2><div class="section-line"></div>
-    <div class="two-col">
-      <div><div class="card" style="margin-bottom:12px"><h4>🧠 臨床困境</h4><ul><li>腦出血佔中風 10-15%，但死亡率高達 <span class="highlight">40%</span></li><li>目前無有效藥物——僅支持性治療＋手術減壓</li><li>血腫清除後留下 <span class="highlight">空腔（cavity）</span>——天然的局部給藥窗口</li></ul></div>
-      <div class="card"><h4>💡 生醫材料的機會</h4><ul><li>立體定位注射 → <span class="highlight">精準局部給藥</span></li><li>材料本身可做支架、載體、或活性治療</li><li>繞過血腦屏障，直接在病灶發揮作用</li></ul></div></div>
-      <div class="card" style="display:flex;align-items:center;justify-content:center;margin-top:8px"><div style="text-align:center"><div class="stat-big">12</div><div class="stat-label">篇確認納入研究</div><div style="margin:10px 0;height:2px;background:rgba(255,255,255,0.08)"></div><div style="display:flex;gap:40px;justify-content:center"><div><span style="font-size:24px;color:#4fc3f7">9</span><span style="font-size:12px;color:#81d4fa;display:block">水膠</span></div><div><span style="font-size:24px;color:#26c6da">3</span><span style="font-size:12px;color:#81d4fa;display:block">支架</span></div></div></div></div>
-    <div class="footer-bar"></div><div class="slide-num">2 / 12</div></div>`,
-  
-  // 3: Material Overview
-  `<div class="slide"><h2>材料分類總覽</h2><div class="section-line"></div>
-    <div class="card-grid grid-3">
-      <div class="card"><div class="goal-icon">🧪</div><h4>水膠（Hydrogel）</h4><p>高含水量的三維聚合物網絡，模擬腦組織力學特性。可注射、可生物降解、可搭載細胞或藥物。</p><div style="margin-top:8px"><span class="tag">明膠</span><span class="tag">自組裝肽</span><span class="tag">DNA 水膠</span><span class="tag">腦 ECM</span></div><p style="margin-top:8px;font-size:12px;color:#4fc3f7">9 篇研究</p></div>
-      <div class="card"><div class="goal-icon">🏗️</div><h4>支架（Scaffold）</h4><p>具備特定三維結構，提供細胞附著與生長的物理支撐。可 3D 列印、可搭載藥物。</p><div style="margin-top:8px"><span class="tag">3D 列印</span><span class="tag">腦 ECM bioink</span><span class="tag">ROS 響應型</span></div><p style="margin-top:8px;font-size:12px;color:#26c6da">3 篇研究</p></div>
-      <div class="card"><div class="goal-icon">🔬</div><h4>奈米粒子</h4><p>奈米級載體。本回顧中多數為全身給藥，<span class="highlight">不符合局部治療納入標準</span>。</p><div style="margin-top:8px"><span class="tag">奈米硒</span><span class="tag">微脂體</span></div><p style="margin-top:8px;font-size:12px;color:#ef5350">多數排除（全身給藥）</p></div>
-    </div>
-    <div class="info-box info-warn"><strong>⚠️ 關鍵發現：</strong>7 篇奈米粒子研究中，5 篇因全身給藥（IV/IP/oral）被排除。真正有效的局部治療集中在水膠與支架兩大類。</div>
-    <div class="footer-bar"></div><div class="slide-num">3 / 12</div></div>`,
-  
-  // 4: Hydrogel 1
-  `<div class="slide"><h2>水膠詳解（一）：天然與半合成</h2><div class="section-line"></div>
-    <div class="table-wrap"><table>
-      <tr><th>PMID</th><th>材料</th><th>特色</th><th>搭載物</th><th>代表性結果</th></tr>
-      <tr><td>32760708</td><td><span class="highlight">明膠水膠</span><br>Gelatin-PEGDA</td><td>Michael addition 交聯<br>可注射、生物相容</td><td>無</td><td>神經缺損分數顯著改善<br>M1→M2 微膠細胞極化</td></tr>
-      <tr><td>37853252</td><td><span class="highlight">自組裝肽水膠</span><br>Alpha2 (PeptiGel)</td><td>彈性模量 1.7 kPa<br>模擬腦組織軟硬度</td><td>無</td><td>安全、無不良反應<br>促進細胞增生（Ki67+）</td></tr>
-      <tr><td>41892579</td><td><span class="highlight">自組裝肽＋SVF</span><br>SAP-HGF + SVF</td><td>HGF 功能化<br>結合基質血管分離細胞</td><td>SVF 細胞</td><td>細胞＋材料協同治療<br>局部滯留與緩釋</td></tr>
-      <tr><td>41274977</td><td><span class="highlight">幾丁聚醣＋BDNF</span><br>Chitosan-BDNF</td><td>基因治療載體<br>促進神經新生</td><td>BDNF 質體</td><td>神經保護＋神經新生<br>黃醫師團隊相關技術</td></tr>
-    </table></div>
-    <div class="footer-bar"></div><div class="slide-num">4 / 12</div></div>`,
-  
-  // 5: Hydrogel 2
-  `<div class="slide"><h2>水膠詳解（二）：智慧型與 ECM 衍生</h2><div class="section-line"></div>
-    <div class="table-wrap"><table>
-      <tr><th>PMID</th><th>材料</th><th>特色</th><th>搭載物</th><th>代表性結果</th></tr>
-      <tr><td>39141742</td><td><span class="highlight">DNA 智慧水膠</span></td><td>血紅蛋白響應型<br>診斷＋治療（theranostic）</td><td>DFO 鐵螯合劑</td><td>血腫體積顯著減少<br>偵測再出血（螢光）</td></tr>
-      <tr><td>40265103</td><td><span class="highlight">腦 ECM 水膠</span></td><td>去細胞腦基質<br>保留原生微環境訊號</td><td>無</td><td>促進神經元遷移<br>功能性恢復</td></tr>
-      <tr><td>40254565</td><td><span class="highlight">腦 ECM＋外泌體</span></td><td>3D 列印成形<br>搭載幹細胞外泌體</td><td>外泌體</td><td>抗神經發炎<br>促進神經修復</td></tr>
-      <tr><td>40181802</td><td><span class="highlight">水膠網格共培養</span></td><td>NSC＋HUVEC<br>神經幹細胞＋內皮細胞</td><td>NSC+HUVEC</td><td>促進軸突再生<br>血管新生輔助</td></tr>
-    </table></div>
-    <div class="footer-bar"></div><div class="slide-num">5 / 12</div></div>`,
-  
-  // 6: Scaffolds
-  `<div class="slide"><h2>支架材料詳解</h2><div class="section-line"></div>
-    <div class="table-wrap"><table>
-      <tr><th>PMID</th><th>材料</th><th>特色</th><th>搭載物</th><th>代表性結果</th></tr>
-      <tr><td>39420402</td><td><span class="highlight">3D 支架＋Bergenin</span></td><td>GelMA/SF/dECM<br>ROS 清除＋抗鐵死亡</td><td>Bergenin</td><td>血腫＋腦水腫顯著減少<br>NF-κB 抑制＋Nrf-2 活化</td></tr>
-      <tr><td>40796885</td><td><span class="highlight">3D 細胞支架</span></td><td>腦 ECM bioink<br>3D 列印含細胞支架</td><td>細胞</td><td>細胞存活＋功能性整合</td></tr>
-      <tr><td>41088427</td><td><span class="highlight">ROS 響應型支架</span></td><td>活性氧響應降解<br>低氧預處理胞外囊泡</td><td>低氧 EVs</td><td>標靶神經發炎調節<br>智慧釋放系統</td></tr>
-      <tr><td>35966129</td><td><span class="highlight">肽支架＋BMSC</span></td><td>注射型細胞支架<br>骨髓基質細胞移植</td><td>BMSC</td><td>慢性 ICH 模型<br>細胞＋支架協同</td></tr>
-    </table></div>
-    <div class="footer-bar"></div><div class="slide-num">6 / 12</div></div>`,
-  
-  // 7: Three Goals
-  `<div class="slide"><h2>三大治療目標</h2><div class="section-line"></div>
-    <div class="card-grid grid-3">
-      <div class="card" style="text-align:center"><div class="goal-icon">🛡️</div><h4>目標一<br>抗發炎與神經保護</h4><p style="margin-top:6px">抑制微膠細胞過度活化<br>減少促發炎細胞激素<br>對抗氧化壓力</p><div style="margin-top:8px;padding:6px;background:rgba(79,195,247,0.08);border-radius:6px;font-size:11px;color:#4fc3f7">7 篇研究<br>M1→M2 極化為共同機制</div></div>
-      <div class="card" style="text-align:center"><div class="goal-icon">🌱</div><h4>目標二<br>神經再生與修復</h4><p style="margin-top:6px">促進神經元存活與新生<br>軸突再生<br>血管新生支援</p><div style="margin-top:8px;padding:6px;background:rgba(79,195,247,0.08);border-radius:6px;font-size:11px;color:#4fc3f7">5 篇研究<br>BDNF/NSC/BMSC 策略</div></div>
-      <div class="card" style="text-align:center"><div class="goal-icon">🩸</div><h4>目標三<br>血腫與鐵離子管理</h4><p style="margin-top:6px">加速血腫清除<br>螯合游離鐵<br>減少鐵死亡</p><div style="margin-top:8px;padding:6px;background:rgba(79,195,247,0.08);border-radius:6px;font-size:11px;color:#4fc3f7">3 篇研究<br>DFO/Bergenin 關鍵</div></div>
-    </div>
-    <div style="margin-top:14px;text-align:center;font-size:12px;color:#546e7a">多數研究同時涉及 ≥2 個治療目標，反映生醫材料的多功能性</div>
-    <div class="footer-bar"></div><div class="slide-num">7 / 12</div></div>`,
-  
-  // 8: Anti-inflammation
-  `<div class="slide"><h2>🛡️ 目標一：抗發炎與神經保護</h2><div class="section-line"></div>
-    <div class="two-col"><div><div class="card" style="margin-bottom:10px"><h4>病理機制</h4><p>ICH 後血腫釋放血紅蛋白與鐵離子 → <span class="highlight">微膠細胞過度活化</span> → 促發炎因子風暴（IL-1β, TNF-α, IL-6）→ 神經元死亡</p></div>
-    <div class="card"><h4>材料策略</h4><ul><li><span class="highlight">明膠水膠</span>：抑制 M1、促進 M2 極化</li><li><span class="highlight">Bergenin 支架</span>：NF-κB 抑制＋Nrf-2 活化</li><li><span class="highlight">ROS 響應支架</span>：低氧 EVs 標靶調節發炎</li><li><span class="highlight">腦 ECM 水膠</span>：抗發炎微環境</li></ul></div></div>
-    <div class="card" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center"><div style="font-size:13px;color:#81d4fa;margin-bottom:8px">共同路徑</div><div style="font-size:16px;color:#4fc3f7;font-weight:600">M1 微膠細胞</div><div style="font-size:20px;color:#26c6da;margin:8px 0">↓</div><div style="font-size:16px;color:#4fc3f7;font-weight:600">M2 微膠細胞</div><div style="margin-top:12px;font-size:11px;color:#b0bec5">促發炎 → 抗發炎轉換<br>減少神經元喪失<br>改善行為恢復</div></div></div>
-    <div class="footer-bar"></div><div class="slide-num">8 / 12</div></div>`,
-  
-  // 9: Regeneration
-  `<div class="slide"><h2>🌱 目標二：神經再生與修復</h2><div class="section-line"></div>
-    <div class="card-grid grid-2">
-      <div class="card"><h4>🧬 基因治療策略</h4><p style="margin-bottom:6px"><span class="highlight">BDNF 質體水膠</span>（41274977）</p><ul><li>幾丁聚醣水膠搭載 BDNF 質體 DNA</li><li>局部轉染 → 持續分泌 BDNF</li><li>促進神經保護＋神經新生</li></ul></div>
-      <div class="card"><h4>🧫 細胞治療策略</h4><p style="margin-bottom:6px"><span class="highlight">多種細胞來源</span></p><ul><li>NSC＋HUVEC 共培養：軸突＋血管新生</li><li>BMSC 移植：慢性 ICH 修復</li><li>SVF 細胞：基質血管分離細胞</li><li>外泌體：無細胞治療</li></ul></div>
-    </div>
-    <div class="info-box info-warn" style="margin-top:12px"><strong>⚠️ 轉譯缺口：</strong>神經再生需 ≥28 天觀察。目前多數研究觀察期 ≤14 天，長期功能性恢復數據不足。</div>
-    <div class="footer-bar"></div><div class="slide-num">9 / 12</div></div>`,
-  
-  // 10: Hematoma
-  `<div class="slide"><h2>🩸 目標三：血腫與鐵離子管理</h2><div class="section-line"></div>
-    <div class="two-col"><div class="card"><h4>鐵毒性的雙重打擊</h4><p style="margin-bottom:6px">血腫溶解 → 釋放游離血紅蛋白與鐵離子</p><ul><li>Fenton 反應 → 活性氧（ROS）爆發</li><li>脂質過氧化 → <span class="highlight">鐵死亡（ferroptosis）</span></li><li>二次腦損傷持續數天至數週</li></ul></div>
-    <div class="card"><h4>材料介入策略</h4><ul><li><span class="highlight">DNA 水膠＋DFO</span>：血紅蛋白響應釋放鐵螯合劑＋偵測再出血</li><li><span class="highlight">Bergenin 支架</span>：減少 MDA、增加 GSH</li><li><span class="highlight">奈米硒</span>：Nrf2/GPX4 路徑活化</li></ul></div></div>
-    <div class="card" style="margin-top:12px;text-align:center"><div style="display:flex;gap:20px;justify-content:center"><div><span style="font-size:22px">🧹</span><div style="font-size:11px;color:#b0bec5">加速血腫清除</div></div><div><span style="font-size:22px">🛡️</span><div style="font-size:11px;color:#b0bec5">螯合游離鐵</div></div><div><span style="font-size:22px">📡</span><div style="font-size:11px;color:#b0bec5">theranostic 平台</div></div></div></div>
-    <div class="footer-bar"></div><div class="slide-num">10 / 12</div></div>`,
-  
-  // 11: Translation
-  `<div class="slide"><h2>轉譯就緒度評估</h2><div class="section-line"></div>
-    <div class="table-wrap"><table>
-      <tr><th>轉譯維度</th><th>現狀</th><th>缺口</th></tr>
-      <tr><td><span class="highlight">給藥時機</span></td><td>大多在 ICH 後 2h–7d 給藥<br>臨床上合理</td><td>最佳時間窗未系統比較</td></tr>
-      <tr><td><span class="highlight">空腔遞送</span></td><td>100% 使用立體定位注射<br>與臨床手術路徑一致</td><td>缺大型動物驗證</td></tr>
-      <tr><td><span class="highlight">局部安全性</span></td><td>所有研究報告良好耐受性</td><td>長期（>3 個月）數據不足</td></tr>
-      <tr><td><span class="highlight">長期功能恢復</span></td><td>多數觀察 ≤28 天</td><td>需 >3 個月追蹤</td></tr>
-      <tr><td><span class="highlight">製程可擴展</span></td><td>實驗室規模，部分有 GMP 潛力</td><td>無菌生產＋品管標準</td></tr>
-    </table></div>
-    <div class="info-box info-ok" style="margin-top:10px"><strong>✅ 整體評估：</strong>局部水膠/支架策略在 ICH 術後空腔給藥具有高度臨床合理性。關鍵下一步：大型動物驗證＋長期安全性＋標準化功能評估。</div>
-    <div class="footer-bar"></div><div class="slide-num">11 / 12</div></div>`,
-  
-  // 12: Takeaways
-  `<div class="slide"><h2>核心訊息</h2><div class="section-line"></div>
-    <div class="card-grid grid-2" style="align-content:center">
-      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:6px">🧪</div><h4>水膠是主力</h4><p>9 篇研究涵蓋天然、合成、智慧型材料，可注射、可降解、可功能化</p></div>
-      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:6px">🎯</div><h4>一材料多功能</h4><p>最佳策略同時抗發炎、促再生、管血腫——而非單一藥理靶點</p></div>
-      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:6px">💉</div><h4>局部給藥是關鍵</h4><p>全身給藥奈米粒子多被排除——ICH 術後空腔是生醫材料的天然舞台</p></div>
-      <div class="card" style="text-align:center"><div style="font-size:36px;margin-bottom:6px">🚀</div><h4>轉譯就在眼前</h4><p>12 篇研究的共同證據指向臨床可行性——就差最後一哩路</p></div>
-    </div>
-    <div style="margin-top:20px;text-align:center;font-size:13px;color:#546e7a">本簡報基於系統性回顧初步結果 · 黃博浩醫師實驗室 · 2026</div>
-    <div class="footer-bar"></div><div class="slide-num">12 / 12</div></div>`,
-];
-
-let currentSlide = 0;
-let isPlaying = false;
-const audio = document.getElementById('audio');
-const slideArea = document.getElementById('slide-area');
-const progressBar = document.getElementById('progress-bar');
-const slideIndicator = document.getElementById('slide-indicator');
-const statusText = document.getElementById('status-text');
-const btnPlay = document.getElementById('btn-play');
-const btnPrev = document.getElementById('btn-prev');
-const btnNext = document.getElementById('btn-next');
-
-function renderSlide(index) {
-  slideArea.innerHTML = SLIDES[index];
-  slideArea.firstElementChild.classList.add('active');
-  currentSlide = index;
-  slideIndicator.textContent = `${index + 1} / ${SLIDES.length}`;
-  btnPrev.disabled = index === 0;
-  btnNext.disabled = index === SLIDES.length - 1;
+var N=12, cur=0, playing=false;
+var au=document.getElementById('au');
+function show(i){
+  for(var j=1;j<=N;j++) document.getElementById('s'+j).classList.remove('show');
+  document.getElementById('s'+(i+1)).classList.add('show');
+  cur=i; document.getElementById('ind').textContent=(i+1)+' / '+N;
+  document.getElementById('bp').disabled=i===0;
+  document.getElementById('bn').disabled=i===N-1;
 }
-
-function loadAudio(index) {
-  const seg = String(index + 1).padStart(2, '0');
-  audio.src = `audio/segment_${seg}.mp3`;
-  audio.load();
+function loadA(i){
+  au.src='audio/segment_'+String(i+1).padStart(2,'0')+'.mp3'; au.load();
 }
-
-function playSlide(index) {
-  renderSlide(index);
-  loadAudio(index);
-  audio.play().then(() => {
-    isPlaying = true;
-    btnPlay.textContent = '⏸';
-    statusText.textContent = '播放中';
-  }).catch(e => {
-    statusText.textContent = '點擊播放';
-  });
+function playS(i){
+  show(i); loadA(i);
+  au.play().then(function(){playing=true;document.getElementById('bpl').textContent='\u23F8';document.getElementById('sts').textContent='播放中'}).catch(function(e){document.getElementById('sts').textContent='點擊播放'});
 }
-
-function togglePlay() {
-  if (isPlaying) {
-    audio.pause();
-    isPlaying = false;
-    btnPlay.textContent = '▶';
-    statusText.textContent = '已暫停';
-  } else {
-    if (!audio.src || audio.src === window.location.href) {
-      loadAudio(currentSlide);
-    }
-    audio.play().then(() => {
-      isPlaying = true;
-      btnPlay.textContent = '⏸';
-      statusText.textContent = '播放中';
-    }).catch(() => {
-      statusText.textContent = '點擊 ▶ 播放';
-    });
-  }
+function tog(){
+  if(playing){au.pause();playing=false;document.getElementById('bpl').textContent='\u25B6';document.getElementById('sts').textContent='已暫停'}
+  else{if(!au.src||au.src===window.location.href)loadA(cur);
+    au.play().then(function(){playing=true;document.getElementById('bpl').textContent='\u23F8';document.getElementById('sts').textContent='播放中'}).catch(function(){document.getElementById('sts').textContent='點擊播放'});}
 }
-
-function nextSlide() {
-  if (currentSlide < SLIDES.length - 1) {
-    playSlide(currentSlide + 1);
-  }
-}
-
-function prevSlide() {
-  if (currentSlide > 0) {
-    playSlide(currentSlide - 1);
-  }
-}
-
-// Audio events
-audio.addEventListener('timeupdate', () => {
-  if (audio.duration) {
-    const pct = (audio.currentTime / audio.duration) * 100;
-    progressBar.style.width = pct + '%';
-  }
-});
-
-audio.addEventListener('ended', () => {
-  isPlaying = false;
-  btnPlay.textContent = '▶';
-  progressBar.style.width = '0%';
-  if (currentSlide < SLIDES.length - 1) {
-    statusText.textContent = '自動跳下一張...';
-    setTimeout(() => playSlide(currentSlide + 1), 800);
-  } else {
-    statusText.textContent = '簡報結束';
-  }
-});
-
-audio.addEventListener('error', () => {
-  statusText.textContent = '音檔載入失敗';
-  isPlaying = false;
-  btnPlay.textContent = '▶';
-});
-
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight' || e.key === ' ') {
-    e.preventDefault();
-    if (isPlaying) { audio.pause(); isPlaying = false; btnPlay.textContent = '▶'; }
-    nextSlide();
-  } else if (e.key === 'ArrowLeft') {
-    e.preventDefault();
-    if (isPlaying) { audio.pause(); isPlaying = false; btnPlay.textContent = '▶'; }
-    prevSlide();
-  }
-});
-
-// Init
-renderSlide(0);
-loadAudio(0);
-statusText.textContent = '點擊 ▶ 開始播放';
+function next(){if(cur<N-1)playS(cur+1)}
+function prev(){if(cur>0)playS(cur-1)}
+au.addEventListener('timeupdate',function(){if(au.duration)document.getElementById('pbar').style.width=(au.currentTime/au.duration*100)+'%'});
+au.addEventListener('ended',function(){playing=false;document.getElementById('bpl').textContent='\u25B6';document.getElementById('pbar').style.width='0%';if(cur<N-1){document.getElementById('sts').textContent='自動跳下一張...';setTimeout(function(){playS(cur+1)},800)}else{document.getElementById('sts').textContent='簡報結束'}});
+au.addEventListener('error',function(){document.getElementById('sts').textContent='音檔載入失敗';playing=false;document.getElementById('bpl').textContent='\u25B6'});
+document.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();if(playing){au.pause();playing=false;document.getElementById('bpl').textContent='\u25B6'}next()}else if(e.key==='ArrowLeft'){e.preventDefault();if(playing){au.pause();playing=false;document.getElementById('bpl').textContent='\u25B6'}prev()}});
 </script>
 </body>
 </html>
